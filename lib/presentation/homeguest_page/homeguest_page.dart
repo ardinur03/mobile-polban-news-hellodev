@@ -1,7 +1,7 @@
-import '../presentation/homeguest_page/widgets/homeguest_item_widget.dart';
-import '../presentation/homeguest_page/controller/homeguest_controller.dart';
-import '../presentation/homeguest_page/models/homeguest_item_model.dart';
-import '../presentation/homeguest_page/models/homeguest_model.dart';
+import '../homeguest_page/widgets/homeguest_item_widget.dart';
+import 'controller/homeguest_controller.dart';
+import 'models/homeguest_item_model.dart';
+import 'models/homeguest_model.dart';
 import 'package:flutter/material.dart';
 import 'package:polban_news/core/app_export.dart';
 import 'package:polban_news/widgets/app_bar/custom_app_bar.dart';
@@ -9,7 +9,7 @@ import 'package:polban_news/widgets/custom_button.dart';
 import 'package:polban_news/widgets/custom_search_view.dart';
 
 // ignore_for_file: must_be_immutable
-class HomePage extends StatelessWidget {
+class HomeguestPage extends StatelessWidget {
   HomeguestController controller =
       Get.put(HomeguestController(HomeguestModel().obs));
 
