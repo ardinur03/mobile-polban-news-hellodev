@@ -25,7 +25,7 @@ class MyApp extends StatelessWidget {
       ),
       translations: AppLocalization(),
       locale: Get.deviceLocale, //for setting localization strings
-      fallbackLocale: Locale('en', 'US'),
+      fallbackLocale: Locale('id', 'ID'),
       title: 'polban_news',
       initialBinding: InitialBindings(),
       initialRoute: AppRoutes.initialRoute,

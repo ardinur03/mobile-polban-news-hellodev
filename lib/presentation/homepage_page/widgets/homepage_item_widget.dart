@@ -1,15 +1,12 @@
 import '../controller/homepage_controller.dart';
-import '../models/homepage_item_model.dart';
+import 'package:polban_news/data/models/news_model.dart';
 import 'package:flutter/material.dart';
 import 'package:polban_news/core/app_export.dart';
 
-// ignore: must_be_immutable
 class HomepageItemWidget extends StatelessWidget {
-  HomepageItemWidget(this.homepageItemModelObj);
+  final News news;
 
-  HomepageItemModel homepageItemModelObj;
-
-  var controller = Get.find<HomepageController>();
+  HomepageItemWidget(this.news);
 
   @override
   Widget build(BuildContext context) {
@@ -52,7 +49,7 @@ class HomepageItemWidget extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
                 Text(
-                  "lbl_info_ukt".tr,
+                  news.title,
                   overflow: TextOverflow.ellipsis,
                   textAlign: TextAlign.left,
                   style: AppStyle.txtInterBold14LightblueA700,
@@ -65,7 +62,7 @@ class HomepageItemWidget extends StatelessWidget {
                     top: 8,
                   ),
                   child: Text(
-                    "msg_lorem_ipsum_dolor2".tr,
+                    news.brief_overview,
                     maxLines: null,
                     textAlign: TextAlign.justify,
                     style: AppStyle.txtInterMedium12,
@@ -73,10 +70,10 @@ class HomepageItemWidget extends StatelessWidget {
                 ),
                 Padding(
                   padding: getPadding(
-                    top: 3,
+                    top: 8,
                   ),
                   child: Text(
-                    "msg_admin_pusat_polban".tr,
+                    'Oleh: ' + news.author,
                     overflow: TextOverflow.ellipsis,
                     textAlign: TextAlign.left,
                     style: AppStyle.txtInterSemiBold10Indigo900bf,
@@ -84,11 +81,10 @@ class HomepageItemWidget extends StatelessWidget {
                 ),
                 Padding(
                   padding: getPadding(
-                    left: 5,
                     top: 5,
                   ),
                   child: Text(
-                    "lbl_1_jam_lalu".tr,
+                    '• ' + news.created_at,
                     overflow: TextOverflow.ellipsis,
                     textAlign: TextAlign.left,
                     style: AppStyle.txtInterSemiBold10Black9004c,
