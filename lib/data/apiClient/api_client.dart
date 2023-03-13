@@ -6,13 +6,14 @@ import 'package:http/http.dart' as http;
 import 'package:polban_news/data/models/news_model.dart';
 
 // URL
-final String baseUrl = 'http://10.0.2.2:8000/api';
+final String baseUrl = 'http://10.50.216.28:8000/api';
 
 class ApiClient extends GetConnect {
   Future<List<News>> getNews() async {
     try {
       // Dapatkan data dari API
-      final response = await http.get(Uri.parse('$baseUrl/news'));
+      final response =
+          await http.get(Uri.parse('$baseUrl/news?date_filter=latest'));
       // Cek apakah berhasil mendapatkan data
       if (response.statusCode == 200) {
         // Jika berhasil, kembalikan data dalam bentuk model
@@ -23,7 +24,10 @@ class ApiClient extends GetConnect {
           final epoch = data['created_at'];
           final date = DateTime.fromMillisecondsSinceEpoch(epoch * 1000);
 
-          if (DateTime.now().difference(date).inHours <= 24) {
+          if (DateTime.now().difference(date).inMinutes <= 60) {
+            data['created_at'] =
+                '${DateTime.now().difference(date).inMinutes} menit yang lalu';
+          } else if (DateTime.now().difference(date).inHours <= 24) {
             // Dalam jam
             data['created_at'] =
                 '${DateTime.now().difference(date).inHours} jam yang lalu';
