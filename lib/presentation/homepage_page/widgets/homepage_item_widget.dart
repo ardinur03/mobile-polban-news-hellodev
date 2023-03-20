@@ -1,4 +1,3 @@
-import '../controller/homepage_controller.dart';
 import 'package:polban_news/data/models/news_model.dart';
 import 'package:flutter/material.dart';
 import 'package:polban_news/core/app_export.dart';
@@ -22,75 +21,85 @@ class HomepageItemWidget extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          CustomImageView(
-            imagePath: ImageConstant.imgImagepicture,
-            height: getVerticalSize(
-              126.00,
-            ),
-            width: getHorizontalSize(
-              134.00,
-            ),
-            radius: BorderRadius.circular(
-              getHorizontalSize(
-                10.00,
+          Padding(
+            padding: getPadding(left: 14, top: 3),
+            child: CustomImageView(
+              url: news.galleries.isNotEmpty
+                  ? news.galleries[0]
+                  : 'https://t4.ftcdn.net/jpg/02/51/95/53/360_F_251955356_FAQH0U1y1TZw3ZcdPGybwUkH90a3VAhb.jpg',
+              height: getVerticalSize(
+                126.00,
+              ),
+              width: getHorizontalSize(
+                134.00,
+              ),
+              radius: BorderRadius.circular(
+                getHorizontalSize(
+                  10.00,
+                ),
+              ),
+              margin: getMargin(
+                top: 1,
+                bottom: 3,
               ),
             ),
-            margin: getMargin(
-              top: 1,
-              bottom: 3,
-            ),
           ),
-          Padding(
-            padding: getPadding(
-              bottom: 8,
-            ),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: [
-                Text(
-                  news.title,
-                  overflow: TextOverflow.ellipsis,
-                  textAlign: TextAlign.left,
-                  style: AppStyle.txtInterBold14LightblueA700,
-                ),
-                Container(
-                  width: getHorizontalSize(
-                    178.00,
-                  ),
-                  margin: getMargin(
-                    top: 8,
-                  ),
-                  child: Text(
-                    news.brief_overview,
-                    maxLines: null,
-                    textAlign: TextAlign.justify,
-                    style: AppStyle.txtInterMedium12,
-                  ),
-                ),
-                Padding(
-                  padding: getPadding(
-                    top: 8,
-                  ),
-                  child: Text(
-                    'Oleh: ' + news.author,
+          Expanded(
+            child: Padding(
+              padding: getPadding(
+                bottom: 8,
+                left: 12,
+              ),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  Text(
+                    news.title,
                     overflow: TextOverflow.ellipsis,
+                    maxLines: 2,
                     textAlign: TextAlign.left,
-                    style: AppStyle.txtInterSemiBold10Indigo900bf,
+                    style: AppStyle.txtInterBold14LightblueA700,
                   ),
-                ),
-                Padding(
-                  padding: getPadding(
-                    top: 5,
+                  Container(
+                    width: getHorizontalSize(
+                      183.00,
+                    ),
+                    margin: getMargin(
+                      top: 8,
+                    ),
+                    child: Text(
+                      news.brief_overview,
+                      maxLines: 5,
+                      overflow: TextOverflow.ellipsis,
+                      textAlign: TextAlign.justify,
+                      style: AppStyle.txtInterMedium12,
+                    ),
                   ),
-                  child: Text(
-                    '• ' + news.created_at,
-                    overflow: TextOverflow.ellipsis,
-                    textAlign: TextAlign.left,
-                    style: AppStyle.txtInterSemiBold10Black9004c,
+                  Padding(
+                    padding: getPadding(
+                      top: 12,
+                    ),
+                    child: Text(
+                      'Oleh: ' + news.author,
+                      overflow: TextOverflow.ellipsis,
+                      textAlign: TextAlign.left,
+                      style: AppStyle.txtInterSemiBold10Indigo900bf,
+                    ),
                   ),
-                ),
-              ],
+                  Padding(
+                    padding: getPadding(
+                      top: 5,
+                    ),
+                    child: Text(
+                      '• ' + news.created_at,
+                      overflow: TextOverflow.ellipsis,
+                      textAlign: TextAlign.left,
+                      style: AppStyle.txtInterSemiBold10Black9004c,
+                    ),
+                  ),
+                ],
+              ),
             ),
           ),
         ],

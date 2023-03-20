@@ -13,6 +13,7 @@ class News {
   final String author;
   final String scope;
   final String created_at;
+  final List<dynamic> galleries;
 
   // Constructor
   News({
@@ -27,6 +28,7 @@ class News {
     this.author = '',
     this.scope = '',
     this.created_at = '',
+    this.galleries = const [],
   });
 
   // Method to convert the JSON data to a News object
@@ -43,6 +45,7 @@ class News {
       author: json['author'],
       scope: json['scope'],
       created_at: json['created_at'],
+      galleries: List<dynamic>.from(json['galleries']),
     );
   }
 }
