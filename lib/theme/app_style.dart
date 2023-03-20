@@ -77,7 +77,7 @@ class AppStyle {
   static TextStyle txtInterBold14LightblueA700 = TextStyle(
     color: ColorConstant.lightBlueA700,
     fontSize: getFontSize(
-      14,
+      20,
     ),
     fontFamily: 'Inter',
     fontWeight: FontWeight.w700,

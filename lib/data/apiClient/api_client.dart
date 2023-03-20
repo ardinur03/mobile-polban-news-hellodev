@@ -6,7 +6,7 @@ import 'package:http/http.dart' as http;
 import 'package:polban_news/data/models/news_model.dart';
 
 // URL
-final String baseUrl = 'http://10.50.216.28:8000/api';
+final String baseUrl = 'http://10.50.159.77:8000/api';
 
 class ApiClient extends GetConnect {
   Future<List<News>> getNews() async {
