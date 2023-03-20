@@ -24,7 +24,9 @@ class HomepageItemWidget extends StatelessWidget {
           Padding(
             padding: getPadding(left: 14, top: 3),
             child: CustomImageView(
-              imagePath: ImageConstant.imgImagepicture,
+              url: news.galleries.isNotEmpty
+                  ? news.galleries[0]
+                  : 'https://t4.ftcdn.net/jpg/02/51/95/53/360_F_251955356_FAQH0U1y1TZw3ZcdPGybwUkH90a3VAhb.jpg',
               height: getVerticalSize(
                 126.00,
               ),
