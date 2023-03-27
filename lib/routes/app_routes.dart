@@ -15,6 +15,8 @@ class AppRoutes {
 
   static const String appNavigationScreen = '/app_navigation_screen';
 
+  static const String filterPage = '/filter_page';
+
   static String initialRoute = '/initialRoute';
 
   static List<GetPage> pages = [
@@ -45,6 +47,6 @@ class AppRoutes {
       bindings: [
         SplashBinding(),
       ],
-    )
+    ),
   ];
 }

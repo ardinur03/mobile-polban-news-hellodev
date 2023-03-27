@@ -6,9 +6,10 @@ import 'package:http/http.dart' as http;
 import 'package:polban_news/data/models/news_model.dart';
 
 // URL
-final String baseUrl = 'http://10.50.159.77:8000/api';
+final String baseUrl = 'http://192.168.0.102:8000/api';
 
 class ApiClient extends GetConnect {
+  // Fungsi untuk mendapatkan data berita
   Future<List<News>> getNews() async {
     try {
       // Dapatkan data dari API
@@ -54,6 +55,61 @@ class ApiClient extends GetConnect {
         });
 
         //
+        List<News> news = newsJson.map((e) => News.fromJson(e)).toList();
+        return news;
+      }
+      // Jika gagal, beri pesan error
+      throw Exception('Gagal mendapatkan data berita');
+    } catch (e) {
+      // Jika gagal, beri pesan error
+      throw Exception('Gagal mendapatkan data berita: $e');
+    }
+  }
+
+  // Fungsi untuk search berita
+  Future<List<News>> searchNews(String query) async {
+    try {
+      // Dapatkan data dari API dengan query pencarian
+      final response = await http.get(Uri.parse('$baseUrl/news?search=$query'));
+      // Cek apakah berhasil mendapatkan data
+      if (response.statusCode == 200) {
+        // Jika berhasil, kembalikan data dalam bentuk model
+        List<dynamic> newsJson = json.decode(response.body)['data'];
+
+        // Ubah setiap created_at menjadi DateTime dengan melakukan konversi epoch
+        newsJson.forEach((data) {
+          final epoch = data['created_at'];
+          final date = DateTime.fromMillisecondsSinceEpoch(epoch * 1000);
+
+          if (DateTime.now().difference(date).inMinutes <= 60) {
+            data['created_at'] =
+                '${DateTime.now().difference(date).inMinutes} menit yang lalu';
+          } else if (DateTime.now().difference(date).inHours <= 24) {
+            // Dalam jam
+            data['created_at'] =
+                '${DateTime.now().difference(date).inHours} jam yang lalu';
+          } else {
+            final dayTemp;
+            final monthTemp;
+
+            // Hari
+            if (date.day < 10) {
+              dayTemp = '0${date.day}';
+            } else {
+              dayTemp = date.day;
+            }
+
+            // Bulan
+            if (date.month < 10) {
+              monthTemp = '0${date.month}';
+            } else {
+              monthTemp = date.month;
+            }
+
+            data['created_at'] = '$dayTemp-$monthTemp-${date.year}';
+          }
+        });
+
         List<News> news = newsJson.map((e) => News.fromJson(e)).toList();
         return news;
       }

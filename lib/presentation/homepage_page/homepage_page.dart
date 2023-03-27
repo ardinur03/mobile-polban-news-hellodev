@@ -1,3 +1,5 @@
+// ignore_for_file: unused_import
+
 import '../homepage_page/widgets/homepage_item_widget.dart';
 import 'controller/homepage_controller.dart';
 import 'package:polban_news/data/models/news_model.dart';
@@ -231,23 +233,33 @@ class HomepagePage extends StatelessWidget {
                       padding: getPadding(
                         top: 13,
                       ),
-                      child: Obx(
-                        () => ListView.separated(
-                          physics: NeverScrollableScrollPhysics(),
-                          shrinkWrap: true,
-                          separatorBuilder: (context, index) {
-                            return SizedBox(
-                              height: getVerticalSize(
-                                20.00,
-                              ),
-                            );
-                          },
-                          itemCount: controller.news.length,
-                          itemBuilder: (context, index) {
-                            final newsModel = controller.news[index];
-                            return HomepageItemWidget(newsModel);
-                          },
-                        ),
+                      child: NotificationListener<ScrollNotification>(
+                        onNotification: (scrollNotification) {
+                          if (scrollNotification is ScrollEndNotification) {
+                            if (controller
+                                    .scrollController.position.extentAfter ==
+                                0) {
+                              controller.loadMoreNews(); // memuat data tambahan
+                            }
+                          }
+                          return true;
+                        },
+                        child: Obx(() => ListView.separated(
+                              physics: NeverScrollableScrollPhysics(),
+                              shrinkWrap: true,
+                              separatorBuilder: (context, index) {
+                                return SizedBox(
+                                  height: getVerticalSize(
+                                    20.00,
+                                  ),
+                                );
+                              },
+                              itemCount: controller.news.length,
+                              itemBuilder: (context, index) {
+                                final newsModel = controller.news[index];
+                                return HomepageItemWidget(newsModel);
+                              },
+                            )),
                       ),
                     ),
                   ],
