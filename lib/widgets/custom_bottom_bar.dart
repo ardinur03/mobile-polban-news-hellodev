@@ -22,8 +22,8 @@ class CustomBottomBar extends StatelessWidget {
       type: BottomBarEnum.Bookmark,
     ),
     BottomMenuModel(
-      icon: ImageConstant.imgSearch,
-      type: BottomBarEnum.Search,
+      icon: ImageConstant.imgProfile,
+      type: BottomBarEnum.Profile,
     )
   ];
 
@@ -90,7 +90,7 @@ enum BottomBarEnum {
   Home,
   Filter,
   Bookmark,
-  Search,
+  Profile,
 }
 
 class BottomMenuModel {
@@ -113,7 +113,7 @@ class DefaultWidget extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Text(
-              'Please replace the respective Widget here',
+              'Coming Soon',
               style: TextStyle(
                 fontSize: 18,
               ),

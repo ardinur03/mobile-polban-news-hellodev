@@ -9,8 +9,17 @@ import 'package:polban_news/widgets/app_bar/custom_app_bar.dart';
 import 'package:polban_news/widgets/custom_button.dart';
 
 // ignore_for_file: must_be_immutable
-class HomepagePage extends StatelessWidget {
+class HomepagePage extends StatefulWidget {
+  @override
+  _HomepagePageState createState() => _HomepagePageState();
+}
+
+class _HomepagePageState extends State<HomepagePage> {
   final controller = Get.put(HomepageController());
+
+  bool isPusatSelected = false;
+  bool isHimpunanSelected = false;
+  bool isSemuaSelected = true;
 
   @override
   Widget build(BuildContext context) {
@@ -73,26 +82,51 @@ class HomepagePage extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         CustomButton(
-                          height: 25,
                           width: 106,
+                          height: 25,
+                          variant: isSemuaSelected
+                              ? ButtonVariant.OutlineBlue200_1
+                              : null,
                           text: "lbl_semua".tr,
+                          onTap: () {
+                            setState(() {
+                              isPusatSelected = false;
+                              isHimpunanSelected = false;
+                              isSemuaSelected = true;
+                            });
+                          },
                         ),
+                        SizedBox(width: 11),
                         CustomButton(
-                          height: 25,
                           width: 106,
+                          height: 25,
+                          variant: isPusatSelected
+                              ? ButtonVariant.OutlineBlue200_1
+                              : null,
                           text: "lbl_pusat".tr,
-                          margin: getMargin(
-                            left: 11,
-                          ),
-                          variant: ButtonVariant.OutlineBlue200_1,
+                          onTap: () {
+                            setState(() {
+                              isPusatSelected = true;
+                              isHimpunanSelected = false;
+                              isSemuaSelected = false;
+                            });
+                          },
                         ),
+                        SizedBox(width: 11),
                         CustomButton(
-                          height: 25,
                           width: 106,
+                          height: 25,
+                          variant: isHimpunanSelected
+                              ? ButtonVariant.OutlineBlue200_1
+                              : null,
                           text: "lbl_himpunan".tr,
-                          margin: getMargin(
-                            left: 11,
-                          ),
+                          onTap: () {
+                            setState(() {
+                              isPusatSelected = false;
+                              isHimpunanSelected = true;
+                              isSemuaSelected = false;
+                            });
+                          },
                         ),
                       ],
                     ),
