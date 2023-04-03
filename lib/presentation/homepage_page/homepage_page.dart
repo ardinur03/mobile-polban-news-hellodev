@@ -17,9 +17,7 @@ class HomepagePage extends StatefulWidget {
 class _HomepagePageState extends State<HomepagePage> {
   final controller = Get.put(HomepageController());
 
-  bool isPusatSelected = false;
-  bool isHimpunanSelected = false;
-  bool isSemuaSelected = true;
+  String _kategori = 'Semua';
 
   @override
   Widget build(BuildContext context) {
@@ -66,7 +64,7 @@ class _HomepagePageState extends State<HomepagePage> {
           width: size.width,
           child: RefreshIndicator(
             onRefresh: () async {
-              controller.refreshNews();
+              controller.refreshNews(_kategori);
             },
             child: SingleChildScrollView(
               child: Padding(
@@ -84,15 +82,14 @@ class _HomepagePageState extends State<HomepagePage> {
                         CustomButton(
                           width: 106,
                           height: 25,
-                          variant: isSemuaSelected
+                          variant: _kategori == 'Semua'
                               ? ButtonVariant.OutlineBlue200_1
                               : null,
                           text: "lbl_semua".tr,
                           onTap: () {
                             setState(() {
-                              isPusatSelected = false;
-                              isHimpunanSelected = false;
-                              isSemuaSelected = true;
+                              _kategori = 'Semua';
+                              controller.fetchNews(_kategori);
                             });
                           },
                         ),
@@ -100,15 +97,14 @@ class _HomepagePageState extends State<HomepagePage> {
                         CustomButton(
                           width: 106,
                           height: 25,
-                          variant: isPusatSelected
+                          variant: _kategori == 'Pusat'
                               ? ButtonVariant.OutlineBlue200_1
                               : null,
                           text: "lbl_pusat".tr,
                           onTap: () {
                             setState(() {
-                              isPusatSelected = true;
-                              isHimpunanSelected = false;
-                              isSemuaSelected = false;
+                              _kategori = 'Pusat';
+                              controller.fetchNews(_kategori);
                             });
                           },
                         ),
@@ -116,15 +112,14 @@ class _HomepagePageState extends State<HomepagePage> {
                         CustomButton(
                           width: 106,
                           height: 25,
-                          variant: isHimpunanSelected
+                          variant: _kategori == 'Himpunan'
                               ? ButtonVariant.OutlineBlue200_1
                               : null,
                           text: "lbl_himpunan".tr,
                           onTap: () {
                             setState(() {
-                              isPusatSelected = false;
-                              isHimpunanSelected = true;
-                              isSemuaSelected = false;
+                              _kategori = 'Himpunan';
+                              controller.fetchNews(_kategori);
                             });
                           },
                         ),

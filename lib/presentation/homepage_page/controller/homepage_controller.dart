@@ -11,7 +11,7 @@ class HomepageController extends GetxController {
   @override
   void onReady() {
     super.onReady();
-    fetchNews();
+    fetchNews('Semua');
     scrollController.addListener(_onScroll);
   }
 
@@ -24,9 +24,18 @@ class HomepageController extends GetxController {
   }
 
   // Fungsi untuk mendapatkan data berita
-  Future<void> fetchNews() async {
+  Future<void> fetchNews(String kategori) async {
     try {
-      news.value = await ApiClient().getNews();
+      if (kategori == 'Pusat') {
+        news.value = await ApiClient().getPusatNews();
+      } else if (kategori == 'Himpunan') {
+        news.value = await ApiClient().getHimpunanNews();
+      } else if (kategori == 'Semua') {
+        news.value = await ApiClient().getAllNews();
+      } else {
+        news.value = await ApiClient().getAllNews();
+      }
+
       // Jika berhasil, beri pesan berhasil
       Get.snackbar('Berhasil', 'Berhasil mendapatkan data berita');
     } catch (e) {
@@ -35,11 +44,11 @@ class HomepageController extends GetxController {
   }
 
   // Fungsi untuk refresh data berita dengan pull to refresh
-  Future<void> refreshNews() async {
+  Future<void> refreshNews(String kategori) async {
     try {
       await Future.delayed(Duration(seconds: 2));
 
-      this.fetchNews();
+      this.fetchNews(kategori);
     } catch (e) {
       Get.snackbar('Error', 'Gagal mendapatkan data berita: $e');
     }
@@ -48,7 +57,7 @@ class HomepageController extends GetxController {
   // Fungsi untuk memuat data berita tambahan
   Future<void> loadMoreNews() async {
     try {
-      List<News> additionalNews = await ApiClient().getNews();
+      List<News> additionalNews = await ApiClient().getAllNews();
       news.addAll(additionalNews);
       update();
     } catch (e) {
