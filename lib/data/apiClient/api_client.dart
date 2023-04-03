@@ -128,7 +128,7 @@ class ApiClient extends GetConnect {
   Future<List<News>> searchNews(String query) async {
     try {
       // Dapatkan data dari API dengan query pencarian
-      final response = await http.get(Uri.parse('$baseUrl/news?search=$query'));
+      final response = await http.get(Uri.parse('$baseUrl/news?title=$query'));
       // Cek apakah berhasil mendapatkan data
       if (response.statusCode == 200) {
         // Jika berhasil, kembalikan data dalam bentuk model
