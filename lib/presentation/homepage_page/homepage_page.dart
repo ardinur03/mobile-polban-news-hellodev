@@ -74,6 +74,7 @@ class HomepagePage extends StatelessWidget {
                           height: 25,
                           width: 106,
                           text: "lbl_semua".tr,
+                          variant: ButtonVariant.OutlineBlue200_1,
                         ),
                         CustomButton(
                           height: 25,
@@ -82,7 +83,6 @@ class HomepagePage extends StatelessWidget {
                           margin: getMargin(
                             left: 11,
                           ),
-                          variant: ButtonVariant.OutlineBlue200_1,
                         ),
                         CustomButton(
                           height: 25,
