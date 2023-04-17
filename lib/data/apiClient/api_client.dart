@@ -6,7 +6,7 @@ import 'package:http/http.dart' as http;
 import 'package:polban_news/data/models/news_model.dart';
 
 // URL
-final String baseUrl = 'http://192.168.42.52:8000/api';
+final String baseUrl = 'https://polbannews.site/api';
 
 class ApiClient extends GetConnect {
   // Fungsi untuk mendapatkan seluruh data berita
