@@ -1,6 +1,6 @@
 // ignore_for_file: non_constant_identifier_names
 
-class detailnewsModel {
+class DetailNewsModel {
   final String id;
   final String user_id;
   final String title;
@@ -13,7 +13,7 @@ class detailnewsModel {
   final String created_at;
   final String updated_at;
 
-  detailnewsModel({
+  DetailNewsModel({
     required this.id,
     required this.user_id,
     required this.title,
@@ -27,8 +27,8 @@ class detailnewsModel {
     required this.updated_at,
   });
 
-  factory detailnewsModel.fromJson(Map<String, dynamic> json) {
-    return detailnewsModel(
+  factory DetailNewsModel.fromJson(Map<String, dynamic> json) {
+    return DetailNewsModel(
       id: json['id'],
       user_id: json['user_id'],
       title: json['title'],

@@ -1,3 +1,5 @@
+// ignore_for_file: must_be_immutable
+
 import '../controller/homepage_controller.dart';
 import 'package:polban_news/data/models/news_model.dart';
 import 'package:flutter/material.dart';
