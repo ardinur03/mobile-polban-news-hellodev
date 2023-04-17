@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'dart:convert';
-import 'package:http/http.dart' as http;
 import 'package:flutter/widgets.dart';
 import 'package:polban_news/core/app_export.dart';
 import 'package:polban_news/data/apiClient/api_client.dart';
@@ -39,9 +37,6 @@ class HomepageController extends GetxController {
       } else {
         news.value = await ApiClient().getAllNews();
       }
-
-      // Jika berhasil, beri pesan berhasil
-      Get.snackbar('Berhasil', 'Berhasil mendapatkan data berita');
     } catch (e) {
       Get.snackbar('Error', 'Gagal mendapatkan data berita: $e');
     }

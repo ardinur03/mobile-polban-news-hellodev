@@ -13,7 +13,6 @@ class DetailNewsScreen extends StatelessWidget {
     return GetBuilder<DetailNewsController>(
       init: DetailNewsController(),
       builder: (controller) {
-        print('onTap triggered with news id $news');
         return Scaffold(
           body: SingleChildScrollView(
             child: Container(
