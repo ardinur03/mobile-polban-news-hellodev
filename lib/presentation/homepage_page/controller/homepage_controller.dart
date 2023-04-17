@@ -1,11 +1,8 @@
-<<<<<<< HEAD
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
-=======
 import 'package:flutter/widgets.dart';
->>>>>>> fc37334135c23e8560cb10c8dd8ab25a18d8f485
 import 'package:polban_news/core/app_export.dart';
 import 'package:polban_news/data/apiClient/api_client.dart';
 import 'package:polban_news/data/models/news_model.dart';
