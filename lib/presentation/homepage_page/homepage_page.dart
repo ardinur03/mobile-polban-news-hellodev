@@ -1,3 +1,5 @@
+// ignore_for_file: unused_import
+
 import '../homepage_page/widgets/homepage_item_widget.dart';
 import 'controller/homepage_controller.dart';
 import 'package:polban_news/data/models/news_model.dart';
@@ -7,8 +9,15 @@ import 'package:polban_news/widgets/app_bar/custom_app_bar.dart';
 import 'package:polban_news/widgets/custom_button.dart';
 
 // ignore_for_file: must_be_immutable
-class HomepagePage extends StatelessWidget {
+class HomepagePage extends StatefulWidget {
+  @override
+  _HomepagePageState createState() => _HomepagePageState();
+}
+
+class _HomepagePageState extends State<HomepagePage> {
   final controller = Get.put(HomepageController());
+
+  String _kategori = 'Semua';
 
   @override
   Widget build(BuildContext context) {
@@ -55,7 +64,7 @@ class HomepagePage extends StatelessWidget {
           width: size.width,
           child: RefreshIndicator(
             onRefresh: () async {
-              controller.refreshNews();
+              controller.refreshNews(_kategori);
             },
             child: SingleChildScrollView(
               child: Padding(
@@ -71,26 +80,58 @@ class HomepagePage extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         CustomButton(
-                          height: 25,
                           width: 106,
+                          height: 25,
+                          variant: _kategori == 'Semua'
+                              ? ButtonVariant.OutlineBlue200_1
+                              : null,
                           text: "lbl_semua".tr,
+<<<<<<< HEAD
                           variant: ButtonVariant.OutlineBlue200_1,
+=======
+                          onTap: () {
+                            setState(() {
+                              _kategori = 'Semua';
+                              controller.fetchNews(_kategori);
+                            });
+                          },
+>>>>>>> fc37334135c23e8560cb10c8dd8ab25a18d8f485
                         ),
+                        SizedBox(width: 11),
                         CustomButton(
-                          height: 25,
                           width: 106,
+                          height: 25,
+                          variant: _kategori == 'Pusat'
+                              ? ButtonVariant.OutlineBlue200_1
+                              : null,
                           text: "lbl_pusat".tr,
+<<<<<<< HEAD
                           margin: getMargin(
                             left: 11,
                           ),
+=======
+                          onTap: () {
+                            setState(() {
+                              _kategori = 'Pusat';
+                              controller.fetchNews(_kategori);
+                            });
+                          },
+>>>>>>> fc37334135c23e8560cb10c8dd8ab25a18d8f485
                         ),
+                        SizedBox(width: 11),
                         CustomButton(
-                          height: 25,
                           width: 106,
+                          height: 25,
+                          variant: _kategori == 'Himpunan'
+                              ? ButtonVariant.OutlineBlue200_1
+                              : null,
                           text: "lbl_himpunan".tr,
-                          margin: getMargin(
-                            left: 11,
-                          ),
+                          onTap: () {
+                            setState(() {
+                              _kategori = 'Himpunan';
+                              controller.fetchNews(_kategori);
+                            });
+                          },
                         ),
                       ],
                     ),
@@ -231,23 +272,33 @@ class HomepagePage extends StatelessWidget {
                       padding: getPadding(
                         top: 13,
                       ),
-                      child: Obx(
-                        () => ListView.separated(
-                          physics: NeverScrollableScrollPhysics(),
-                          shrinkWrap: true,
-                          separatorBuilder: (context, index) {
-                            return SizedBox(
-                              height: getVerticalSize(
-                                20.00,
-                              ),
-                            );
-                          },
-                          itemCount: controller.news.length,
-                          itemBuilder: (context, index) {
-                            final newsModel = controller.news[index];
-                            return HomepageItemWidget(newsModel);
-                          },
-                        ),
+                      child: NotificationListener<ScrollNotification>(
+                        onNotification: (scrollNotification) {
+                          if (scrollNotification is ScrollEndNotification) {
+                            if (controller
+                                    .scrollController.position.extentAfter ==
+                                0) {
+                              controller.loadMoreNews(); // memuat data tambahan
+                            }
+                          }
+                          return true;
+                        },
+                        child: Obx(() => ListView.separated(
+                              physics: NeverScrollableScrollPhysics(),
+                              shrinkWrap: true,
+                              separatorBuilder: (context, index) {
+                                return SizedBox(
+                                  height: getVerticalSize(
+                                    20.00,
+                                  ),
+                                );
+                              },
+                              itemCount: controller.news.length,
+                              itemBuilder: (context, index) {
+                                final newsModel = controller.news[index];
+                                return HomepageItemWidget(newsModel);
+                              },
+                            )),
                       ),
                     ),
                   ],

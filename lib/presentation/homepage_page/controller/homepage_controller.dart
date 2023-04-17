@@ -1,7 +1,11 @@
+<<<<<<< HEAD
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
+=======
+import 'package:flutter/widgets.dart';
+>>>>>>> fc37334135c23e8560cb10c8dd8ab25a18d8f485
 import 'package:polban_news/core/app_export.dart';
 import 'package:polban_news/data/apiClient/api_client.dart';
 import 'package:polban_news/data/models/news_model.dart';
@@ -10,16 +14,36 @@ import 'package:polban_news/presentation/detail_news_page/detail_news_screen.dar
 class HomepageController extends GetxController {
   RxList<News> news = RxList<News>();
 
+  ScrollController scrollController = ScrollController();
+
   @override
   void onReady() {
     super.onReady();
-    fetchNews();
+    fetchNews('Semua');
+    scrollController.addListener(_onScroll);
+  }
+
+  void _onScroll() {
+    final double maxScroll = scrollController.position.maxScrollExtent;
+    final double currentScroll = scrollController.position.pixels;
+    if (currentScroll == maxScroll) {
+      loadMoreNews();
+    }
   }
 
   // Fungsi untuk mendapatkan data berita
-  Future<void> fetchNews() async {
+  Future<void> fetchNews(String kategori) async {
     try {
-      news.value = await ApiClient().getNews();
+      if (kategori == 'Pusat') {
+        news.value = await ApiClient().getPusatNews();
+      } else if (kategori == 'Himpunan') {
+        news.value = await ApiClient().getHimpunanNews();
+      } else if (kategori == 'Semua') {
+        news.value = await ApiClient().getAllNews();
+      } else {
+        news.value = await ApiClient().getAllNews();
+      }
+
       // Jika berhasil, beri pesan berhasil
       Get.snackbar('Berhasil', 'Berhasil mendapatkan data berita');
     } catch (e) {
@@ -42,13 +66,24 @@ class HomepageController extends GetxController {
   }
 
   // Fungsi untuk refresh data berita dengan pull to refresh
-  Future<void> refreshNews() async {
+  Future<void> refreshNews(String kategori) async {
     try {
       await Future.delayed(Duration(seconds: 2));
 
-      this.fetchNews();
+      this.fetchNews(kategori);
     } catch (e) {
       Get.snackbar('Error', 'Gagal mendapatkan data berita: $e');
+    }
+  }
+
+  // Fungsi untuk memuat data berita tambahan
+  Future<void> loadMoreNews() async {
+    try {
+      List<News> additionalNews = await ApiClient().getAllNews();
+      news.addAll(additionalNews);
+      update();
+    } catch (e) {
+      Get.snackbar('Error', 'Gagal memuat data berita tambahan: $e');
     }
   }
 

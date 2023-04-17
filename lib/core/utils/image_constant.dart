@@ -9,7 +9,7 @@ class ImageConstant {
 
   static String imgNotification = 'assets/images/img_notification.svg';
 
-  static String imgSearch = 'assets/images/img_search.svg';
+  static String imgProfile = 'assets/images/img_search.svg';
 
   static String imgHome = 'assets/images/img_home.svg';
 

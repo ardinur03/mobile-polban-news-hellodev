@@ -19,6 +19,8 @@ class AppRoutes {
 
   static const String appNavigationScreen = '/app_navigation_screen';
 
+  static const String filterPage = '/filter_page';
+
   static String initialRoute = '/initialRoute';
 
   static const String detailnews = '/detailnews';
@@ -52,6 +54,7 @@ class AppRoutes {
         SplashBinding(),
       ],
     ),
+<<<<<<< HEAD
     GetPage(
       name: '/detailnews',
       page: () => DetailNewsScreen(news: Get.arguments),
@@ -59,5 +62,7 @@ class AppRoutes {
         DetailNewsBinding(),
       ],
     ),
+=======
+>>>>>>> fc37334135c23e8560cb10c8dd8ab25a18d8f485
   ];
 }
