@@ -86,16 +86,12 @@ class _HomepagePageState extends State<HomepagePage> {
                               ? ButtonVariant.OutlineBlue200_1
                               : null,
                           text: "lbl_semua".tr,
-<<<<<<< HEAD
-                          variant: ButtonVariant.OutlineBlue200_1,
-=======
                           onTap: () {
                             setState(() {
                               _kategori = 'Semua';
                               controller.fetchNews(_kategori);
                             });
                           },
->>>>>>> fc37334135c23e8560cb10c8dd8ab25a18d8f485
                         ),
                         SizedBox(width: 11),
                         CustomButton(
@@ -105,18 +101,15 @@ class _HomepagePageState extends State<HomepagePage> {
                               ? ButtonVariant.OutlineBlue200_1
                               : null,
                           text: "lbl_pusat".tr,
-<<<<<<< HEAD
                           margin: getMargin(
                             left: 11,
                           ),
-=======
                           onTap: () {
                             setState(() {
                               _kategori = 'Pusat';
                               controller.fetchNews(_kategori);
                             });
                           },
->>>>>>> fc37334135c23e8560cb10c8dd8ab25a18d8f485
                         ),
                         SizedBox(width: 11),
                         CustomButton(

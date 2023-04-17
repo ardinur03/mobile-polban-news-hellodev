@@ -3,11 +3,9 @@ import 'package:polban_news/presentation/splash_screen/splash_screen.dart';
 import 'package:polban_news/presentation/splash_screen/binding/splash_binding.dart';
 import 'package:polban_news/presentation/homepage_container_screen/homepage_container_screen.dart';
 import 'package:polban_news/presentation/homepage_container_screen/binding/homepage_container_binding.dart';
-import 'package:polban_news/presentation/homepage_page/widgets/homepage_item_widget.dart';
 import 'package:polban_news/presentation/app_navigation_screen/app_navigation_screen.dart';
 import 'package:polban_news/presentation/app_navigation_screen/binding/app_navigation_binding.dart';
 import 'package:polban_news/presentation/detail_news_page/binding/detail_news_binding.dart';
-import 'package:polban_news/presentation/detail_news_page/detail_news_screen.dart';
 import 'package:get/get.dart';
 
 class AppRoutes {
@@ -54,7 +52,6 @@ class AppRoutes {
         SplashBinding(),
       ],
     ),
-<<<<<<< HEAD
     GetPage(
       name: '/detailnews',
       page: () => DetailNewsScreen(news: Get.arguments),
@@ -62,7 +59,5 @@ class AppRoutes {
         DetailNewsBinding(),
       ],
     ),
-=======
->>>>>>> fc37334135c23e8560cb10c8dd8ab25a18d8f485
   ];
 }

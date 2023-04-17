@@ -1,15 +1,9 @@
-<<<<<<< HEAD
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'dart:convert';
-import 'package:http/http.dart' as http;
-=======
 import 'package:flutter/widgets.dart';
->>>>>>> fc37334135c23e8560cb10c8dd8ab25a18d8f485
 import 'package:polban_news/core/app_export.dart';
 import 'package:polban_news/data/apiClient/api_client.dart';
 import 'package:polban_news/data/models/news_model.dart';
-import 'package:polban_news/presentation/detail_news_page/detail_news_screen.dart';
 
 class HomepageController extends GetxController {
   RxList<News> news = RxList<News>();
