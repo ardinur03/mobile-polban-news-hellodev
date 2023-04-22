@@ -23,7 +23,7 @@ class AppRoutes {
 
   static String initialRoute = '/initialRoute';
 
-  static const String detailnews = '/detailnews';
+  static const String detailNewsPage = '/detail-news';
 
   static List<GetPage> pages = [
     GetPage(
@@ -55,7 +55,7 @@ class AppRoutes {
       ],
     ),
     GetPage(
-      name: '/detailnews',
+      name: detailNewsPage,
       page: () => DetailNewsScreen(news: Get.arguments),
       bindings: [
         DetailNewsBinding(),

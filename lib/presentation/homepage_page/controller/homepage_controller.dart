@@ -36,9 +36,6 @@ class HomepageController extends GetxController {
       } else {
         news.value = await ApiClient().getAllNews();
       }
-
-      // Jika berhasil, beri pesan berhasil
-      Get.snackbar('Berhasil', 'Berhasil mendapatkan data berita');
     } catch (e) {
       Get.snackbar('Error', 'Gagal mendapatkan data berita: $e');
     }

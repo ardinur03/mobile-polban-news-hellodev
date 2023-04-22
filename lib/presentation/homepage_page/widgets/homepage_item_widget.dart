@@ -4,7 +4,6 @@ import '../controller/homepage_controller.dart';
 import 'package:polban_news/data/models/news_model.dart';
 import 'package:flutter/material.dart';
 import 'package:polban_news/core/app_export.dart';
-import 'package:polban_news/presentation/detail_news_page/detail_news_screen.dart';
 
 class HomepageItemWidget extends StatelessWidget {
   final News news;
@@ -18,12 +17,7 @@ class HomepageItemWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        Navigator.push(
-          context,
-          MaterialPageRoute(
-            builder: (context) => DetailNewsScreen(news: news),
-          ),
-        );
+        Get.toNamed(AppRoutes.detailNewsPage, arguments: news);
       },
       child: Container(
         padding: getPadding(
