@@ -9,8 +9,15 @@ import 'package:polban_news/widgets/app_bar/custom_app_bar.dart';
 import 'package:polban_news/widgets/custom_button.dart';
 
 // ignore_for_file: must_be_immutable
-class HomepagePage extends StatelessWidget {
+class HomepagePage extends StatefulWidget {
+  @override
+  _HomepagePageState createState() => _HomepagePageState();
+}
+
+class _HomepagePageState extends State<HomepagePage> {
   final controller = Get.put(HomepageController());
+
+  String _kategori = 'Semua';
 
   @override
   Widget build(BuildContext context) {
@@ -57,7 +64,7 @@ class HomepagePage extends StatelessWidget {
           width: size.width,
           child: RefreshIndicator(
             onRefresh: () async {
-              controller.refreshNews();
+              controller.refreshNews(_kategori);
             },
             child: SingleChildScrollView(
               child: Padding(
@@ -73,26 +80,51 @@ class HomepagePage extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         CustomButton(
-                          height: 25,
                           width: 106,
+                          height: 25,
+                          variant: _kategori == 'Semua'
+                              ? ButtonVariant.OutlineBlue200_1
+                              : null,
                           text: "lbl_semua".tr,
-                          variant: ButtonVariant.OutlineBlue200_1,
+                          onTap: () {
+                            setState(() {
+                              _kategori = 'Semua';
+                              controller.fetchNews(_kategori);
+                            });
+                          },
                         ),
+                        SizedBox(width: 11),
                         CustomButton(
-                          height: 25,
                           width: 106,
+                          height: 25,
+                          variant: _kategori == 'Pusat'
+                              ? ButtonVariant.OutlineBlue200_1
+                              : null,
                           text: "lbl_pusat".tr,
                           margin: getMargin(
                             left: 11,
                           ),
+                          onTap: () {
+                            setState(() {
+                              _kategori = 'Pusat';
+                              controller.fetchNews(_kategori);
+                            });
+                          },
                         ),
+                        SizedBox(width: 11),
                         CustomButton(
-                          height: 25,
                           width: 106,
+                          height: 25,
+                          variant: _kategori == 'Himpunan'
+                              ? ButtonVariant.OutlineBlue200_1
+                              : null,
                           text: "lbl_himpunan".tr,
-                          margin: getMargin(
-                            left: 11,
-                          ),
+                          onTap: () {
+                            setState(() {
+                              _kategori = 'Himpunan';
+                              controller.fetchNews(_kategori);
+                            });
+                          },
                         ),
                       ],
                     ),

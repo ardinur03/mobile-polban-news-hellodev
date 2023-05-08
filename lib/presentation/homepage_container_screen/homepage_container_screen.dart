@@ -33,7 +33,7 @@ class HomepageContainerScreen extends GetWidget<HomepageContainerController> {
         return AppRoutes.filterPage;
       case BottomBarEnum.Bookmark:
         return "/";
-      case BottomBarEnum.Search:
+      case BottomBarEnum.Profile:
         return "/";
       default:
         return "/";

@@ -1,3 +1,5 @@
+import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:flutter/widgets.dart';
 import 'package:polban_news/core/app_export.dart';
 import 'package:polban_news/data/apiClient/api_client.dart';
@@ -11,7 +13,7 @@ class HomepageController extends GetxController {
   @override
   void onReady() {
     super.onReady();
-    fetchNews();
+    fetchNews('Semua');
     scrollController.addListener(_onScroll);
   }
 
@@ -24,22 +26,42 @@ class HomepageController extends GetxController {
   }
 
   // Fungsi untuk mendapatkan data berita
-  Future<void> fetchNews() async {
+  Future<void> fetchNews(String kategori) async {
     try {
-      news.value = await ApiClient().getNews();
-      // Jika berhasil, beri pesan berhasil
-      Get.snackbar('Berhasil', 'Berhasil mendapatkan data berita');
+      if (kategori == 'Pusat') {
+        news.value = await ApiClient().getPusatNews();
+      } else if (kategori == 'Himpunan') {
+        news.value = await ApiClient().getHimpunanNews();
+      } else if (kategori == 'Semua') {
+        news.value = await ApiClient().getAllNews();
+      } else {
+        news.value = await ApiClient().getAllNews();
+      }
     } catch (e) {
       Get.snackbar('Error', 'Gagal mendapatkan data berita: $e');
     }
   }
 
+  //Fungsi untuk mendapatkan Detail Berita
+  Future<News?> fetchDetails(int newsId) async {
+    try {
+      List<News> newsList = await ApiClient().fetchNewsDetails(newsId);
+      News? newsDetails = newsList.isNotEmpty ? newsList[0] : null;
+      // Jika berhasil, beri pesan berhasil
+      // Get.snackbar('Berhasil', 'Berhasil mendapatkan detail berita');
+      return newsDetails;
+    } catch (e) {
+      Get.snackbar('Error', 'Gagal mendapatkan detail berita: $e');
+      rethrow;
+    }
+  }
+
   // Fungsi untuk refresh data berita dengan pull to refresh
-  Future<void> refreshNews() async {
+  Future<void> refreshNews(String kategori) async {
     try {
       await Future.delayed(Duration(seconds: 2));
 
-      this.fetchNews();
+      this.fetchNews(kategori);
     } catch (e) {
       Get.snackbar('Error', 'Gagal mendapatkan data berita: $e');
     }
@@ -48,7 +70,7 @@ class HomepageController extends GetxController {
   // Fungsi untuk memuat data berita tambahan
   Future<void> loadMoreNews() async {
     try {
-      List<News> additionalNews = await ApiClient().getNews();
+      List<News> additionalNews = await ApiClient().getAllNews();
       news.addAll(additionalNews);
       update();
     } catch (e) {
