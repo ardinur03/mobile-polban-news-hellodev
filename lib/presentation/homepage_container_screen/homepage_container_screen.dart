@@ -4,6 +4,7 @@ import 'package:polban_news/core/app_export.dart';
 import 'package:polban_news/presentation/homepage_page/homepage_page.dart';
 import 'package:polban_news/widgets/custom_bottom_bar.dart';
 import 'package:polban_news/presentation/filter_page/filter_page.dart';
+import 'package:polban_news/presentation/bookmark_page/bookmark_page.dart';
 
 class HomepageContainerScreen extends GetWidget<HomepageContainerController> {
   @override
@@ -32,7 +33,7 @@ class HomepageContainerScreen extends GetWidget<HomepageContainerController> {
       case BottomBarEnum.Filter:
         return AppRoutes.filterPage;
       case BottomBarEnum.Bookmark:
-        return "/";
+        return AppRoutes.bookmarkPage;
       case BottomBarEnum.Profile:
         return "/";
       default:
@@ -46,6 +47,8 @@ class HomepageContainerScreen extends GetWidget<HomepageContainerController> {
         return HomepagePage();
       case AppRoutes.filterPage:
         return FilterPage();
+      case AppRoutes.bookmarkPage:
+        return BookmarkPage();
       default:
         return DefaultWidget();
     }

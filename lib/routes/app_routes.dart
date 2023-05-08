@@ -23,6 +23,8 @@ class AppRoutes {
 
   static const String detailNewsPage = '/detail-news';
 
+  static const String bookmarkPage = '/bookmark-page';
+
   static List<GetPage> pages = [
     GetPage(
       name: splashScreen,
