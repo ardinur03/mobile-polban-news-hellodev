@@ -113,7 +113,7 @@ class DefaultWidget extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Text(
-              'Please replace the respective Widget here',
+              'Coming Soon',
               style: TextStyle(
                 fontSize: 18,
               ),

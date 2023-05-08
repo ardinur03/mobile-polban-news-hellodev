@@ -6,7 +6,7 @@ import 'package:http/http.dart' as http;
 import 'package:polban_news/data/models/news_model.dart';
 
 // URL
-final String baseUrl = 'http://192.168.0.102:8000/api';
+final String baseUrl = 'http://10.50.159.77:8080/api';
 
 class ApiClient extends GetConnect {
   // Fungsi untuk mendapatkan data berita
@@ -70,7 +70,8 @@ class ApiClient extends GetConnect {
   Future<List<News>> searchNews(String query) async {
     try {
       // Dapatkan data dari API dengan query pencarian
-      final response = await http.get(Uri.parse('$baseUrl/news?search=$query'));
+      final response = await http
+          .get(Uri.parse('$baseUrl/news?date_filter=latest&title=$query'));
       // Cek apakah berhasil mendapatkan data
       if (response.statusCode == 200) {
         // Jika berhasil, kembalikan data dalam bentuk model
