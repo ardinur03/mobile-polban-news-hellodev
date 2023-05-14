@@ -24,6 +24,17 @@ class HomepageController extends GetxController {
     }
   }
 
+  //Fungsi untuk mendapatkan list image dari api client
+  Future<List> fetchImageList(int newsId) async {
+    try {
+      List<dynamic> imageList = await ApiClient().getSliderImage();
+      return imageList;
+    } catch (e) {
+      Get.snackbar('Error', 'Gagal mendapatkan list image: $e');
+      rethrow;
+    }
+  }
+
   // Fungsi untuk mendapatkan data berita
   Future<void> fetchNews(String kategori) async {
     try {

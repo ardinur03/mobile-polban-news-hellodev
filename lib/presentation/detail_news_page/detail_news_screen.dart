@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:polban_news/core/app_export.dart';
 import 'package:polban_news/data/models/news_model.dart';
 import 'package:polban_news/presentation/detail_news_page/controller/detail_news_controller.dart';
+import 'package:carousel_slider/carousel_slider.dart';
 
 class DetailNewsScreen extends StatelessWidget {
   final News news;
@@ -10,6 +11,8 @@ class DetailNewsScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    int currentIndex = 0;
+
     return GetBuilder<DetailNewsController>(
       init: DetailNewsController(),
       builder: (controller) {
@@ -27,15 +30,15 @@ class DetailNewsScreen extends StatelessWidget {
                         context: context,
                         builder: (_) => Dialog(
                           child: Container(
-                            width: double.infinity,
-                            height: 400,
+                            // width: double.infinity,
+                            // height: 400,
                             child: ClipRRect(
                               child: InteractiveViewer(
                                 child: Image.network(
                                   news.galleries.isNotEmpty
-                                      ? news.galleries[0]
+                                      ? news.galleries[currentIndex]
                                       : 'https://t4.ftcdn.net/jpg/02/51/95/53/360_F_251955356_FAQH0U1y1TZw3ZcdPGybwUkH90a3VAhb.jpg',
-                                  fit: BoxFit.cover,
+                                  // fit: BoxFit.cover,
                                 ),
                               ),
                             ),
@@ -61,13 +64,46 @@ class DetailNewsScreen extends StatelessWidget {
                           ),
                           child: ClipRRect(
                             borderRadius: BorderRadius.circular(20),
-                            child: Image(
-                              image: NetworkImage(
-                                news.galleries.isNotEmpty
-                                    ? news.galleries[0]
-                                    : 'https://t4.ftcdn.net/jpg/02/51/95/53/360_F_251955356_FAQH0U1y1TZw3ZcdPGybwUkH90a3VAhb.jpg',
+                            child: CarouselSlider(
+                              options: CarouselOptions(
+                                height: 270,
+                                enlargeCenterPage: true,
+                                viewportFraction:
+                                    1.0, //  menyesuaikan lebar CarouselSlider
+                                scrollDirection: Axis.horizontal,
+                                reverse: false,
+                                disableCenter: true,
+                                enableInfiniteScroll: false,
+                                onPageChanged: (index, reason) {
+                                  currentIndex = index;
+                                },
                               ),
-                              fit: BoxFit.cover,
+                              items: news.galleries.map((gallery) {
+                                return Container(
+                                  width: double.infinity,
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(20),
+                                    boxShadow: [
+                                      BoxShadow(
+                                        color: Colors.grey.withOpacity(0.5),
+                                        spreadRadius: 2,
+                                        blurRadius: 7,
+                                        offset: Offset(0, 4),
+                                      ),
+                                    ],
+                                  ),
+                                  child: ClipRRect(
+                                    borderRadius: BorderRadius.circular(20),
+                                    child: Image.network(
+                                      gallery,
+                                      fit: BoxFit.cover,
+                                      height: double.infinity,
+                                      width: double.infinity,
+                                      alignment: Alignment.center,
+                                    ),
+                                  ),
+                                );
+                              }).toList(),
                             ),
                           ),
                         ),
@@ -179,6 +215,7 @@ class DetailNewsScreen extends StatelessWidget {
                     child: Text(
                       news.content,
                       style: TextStyle(fontSize: 14),
+                      textAlign: TextAlign.justify,
                     ),
                   ),
                 ],

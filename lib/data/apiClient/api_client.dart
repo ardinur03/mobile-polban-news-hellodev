@@ -87,6 +87,29 @@ class ApiClient extends GetConnect {
     }
   }
 
+  //Fungsi mengambil list image untuk slider dari API
+  Future<List<dynamic>> getSliderImage() async {
+    try {
+      // Dapatkan data dari API
+      final response = await http.get(Uri.parse('$baseUrl/slider'));
+      // Cek apakah berhasil mendapatkan data
+      if (response.statusCode == 200) {
+        // Jika berhasil, kembalikan data dalam bentuk model
+        List<dynamic> sliderJson = json.decode(response.body)['data'];
+
+        //
+        List<String> slider =
+            sliderJson.map((e) => '$baseUrl/storage/$e').toList();
+        return slider;
+      }
+      // Jika gagal, beri pesan error
+      throw Exception('Gagal mendapatkan data slider');
+    } catch (e) {
+      // Jika gagal, beri pesan error
+      throw Exception('Gagal mendapatkan data slider: $e');
+    }
+  }
+
   // Fungsi untuk mengubah epoch menjadi DateTime
   List<dynamic> convertEPOC(List<dynamic> newsJson) {
     return newsJson.map((data) {
