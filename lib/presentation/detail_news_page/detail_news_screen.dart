@@ -5,13 +5,25 @@ import 'package:polban_news/data/models/news_model.dart';
 import 'package:polban_news/presentation/detail_news_page/controller/detail_news_controller.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 
-class DetailNewsScreen extends StatelessWidget {
+class DetailNewsScreen extends StatefulWidget {
   final News news;
   const DetailNewsScreen({Key? key, required this.news}) : super(key: key);
 
   @override
+  _DetailNewsScreenState createState() => _DetailNewsScreenState();
+}
+
+class _DetailNewsScreenState extends State<DetailNewsScreen> {
+  int _currentIndex = 0;
+  final CarouselController _carouselController = CarouselController();
+
+  @override
   Widget build(BuildContext context) {
-    int currentIndex = 0;
+    void _onPageChanged(int index, CarouselPageChangedReason reason) {
+      setState(() {
+        _currentIndex = index;
+      });
+    }
 
     return GetBuilder<DetailNewsController>(
       init: DetailNewsController(),
@@ -35,8 +47,8 @@ class DetailNewsScreen extends StatelessWidget {
                             child: ClipRRect(
                               child: InteractiveViewer(
                                 child: Image.network(
-                                  news.galleries.isNotEmpty
-                                      ? news.galleries[currentIndex]
+                                  widget.news.galleries.isNotEmpty
+                                      ? widget.news.galleries[_currentIndex]
                                       : 'https://t4.ftcdn.net/jpg/02/51/95/53/360_F_251955356_FAQH0U1y1TZw3ZcdPGybwUkH90a3VAhb.jpg',
                                   // fit: BoxFit.cover,
                                 ),
@@ -75,10 +87,13 @@ class DetailNewsScreen extends StatelessWidget {
                                 disableCenter: true,
                                 enableInfiniteScroll: false,
                                 onPageChanged: (index, reason) {
-                                  currentIndex = index;
+                                  setState(() {
+                                    _currentIndex = index;
+                                  });
                                 },
                               ),
-                              items: news.galleries.map((gallery) {
+                              carouselController: _carouselController,
+                              items: widget.news.galleries.map((gallery) {
                                 return Container(
                                   width: double.infinity,
                                   decoration: BoxDecoration(
@@ -94,17 +109,51 @@ class DetailNewsScreen extends StatelessWidget {
                                   ),
                                   child: ClipRRect(
                                     borderRadius: BorderRadius.circular(20),
+                                    clipBehavior: Clip.hardEdge,
                                     child: Image.network(
                                       gallery,
-                                      fit: BoxFit.cover,
-                                      height: double.infinity,
-                                      width: double.infinity,
+                                      fit: BoxFit.fill,
                                       alignment: Alignment.center,
                                     ),
                                   ),
                                 );
                               }).toList(),
                             ),
+                          ),
+                        ),
+                        Positioned(
+                          bottom: 10,
+                          left: 0,
+                          right: 0,
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: widget.news.galleries
+                                .asMap()
+                                .entries
+                                .map((entry) {
+                              return GestureDetector(
+                                onTap: () => _carouselController
+                                    .animateToPage(entry.key),
+                                child: AnimatedContainer(
+                                  duration: Duration(milliseconds: 300),
+                                  width: 16.0,
+                                  height: 5.0,
+                                  margin: EdgeInsets.symmetric(
+                                      vertical: 8.0, horizontal: 4.0),
+                                  decoration: BoxDecoration(
+                                    shape: BoxShape.rectangle,
+                                    color: (Theme.of(context).brightness ==
+                                                Brightness.light
+                                            ? Color.fromARGB(216, 65, 62, 62)
+                                            : Color.fromARGB(
+                                                255, 223, 223, 223))
+                                        .withOpacity(_currentIndex == entry.key
+                                            ? 0.9
+                                            : 0.4),
+                                  ),
+                                ),
+                              );
+                            }).toList(),
                           ),
                         ),
                         Positioned(
@@ -137,7 +186,7 @@ class DetailNewsScreen extends StatelessWidget {
                   Align(
                     alignment: Alignment.centerLeft,
                     child: Text(
-                      news.title,
+                      widget.news.title,
                       style: TextStyle(
                         fontWeight: FontWeight.bold,
                         fontSize: 18,
@@ -156,7 +205,7 @@ class DetailNewsScreen extends StatelessWidget {
                       ),
                       SizedBox(width: 10),
                       Text(
-                        'oleh ${news.author}',
+                        'oleh ${widget.news.author}',
                         style: TextStyle(fontSize: 12, color: Colors.grey),
                       ),
                       Expanded(
@@ -164,7 +213,7 @@ class DetailNewsScreen extends StatelessWidget {
                           mainAxisAlignment: MainAxisAlignment.end,
                           children: [
                             Text(
-                              '${news.created_at}',
+                              '${widget.news.created_at}',
                               style: TextStyle(
                                 fontSize: 12,
                                 color: Colors.grey,
@@ -213,7 +262,7 @@ class DetailNewsScreen extends StatelessWidget {
                   Align(
                     alignment: Alignment.centerLeft,
                     child: Text(
-                      news.content,
+                      widget.news.content,
                       style: TextStyle(fontSize: 14),
                       textAlign: TextAlign.justify,
                     ),
