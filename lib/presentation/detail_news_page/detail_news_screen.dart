@@ -5,13 +5,25 @@ import 'package:polban_news/data/models/news_model.dart';
 import 'package:polban_news/presentation/detail_news_page/controller/detail_news_controller.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 
-class DetailNewsScreen extends StatelessWidget {
+class DetailNewsScreen extends StatefulWidget {
   final News news;
   const DetailNewsScreen({Key? key, required this.news}) : super(key: key);
 
   @override
+  _DetailNewsScreenState createState() => _DetailNewsScreenState();
+}
+
+class _DetailNewsScreenState extends State<DetailNewsScreen> {
+  int _currentIndex = 0;
+  final CarouselController _carouselController = CarouselController();
+
+  @override
   Widget build(BuildContext context) {
-    int currentIndex = 0;
+    void _onPageChanged(int index, CarouselPageChangedReason reason) {
+      setState(() {
+        _currentIndex = index;
+      });
+    }
 
     return GetBuilder<DetailNewsController>(
       init: DetailNewsController(),
@@ -35,8 +47,8 @@ class DetailNewsScreen extends StatelessWidget {
                             child: ClipRRect(
                               child: InteractiveViewer(
                                 child: Image.network(
-                                  news.galleries.isNotEmpty
-                                      ? news.galleries[currentIndex]
+                                  widget.news.galleries.isNotEmpty
+                                      ? widget.news.galleries[_currentIndex]
                                       : 'https://t4.ftcdn.net/jpg/02/51/95/53/360_F_251955356_FAQH0U1y1TZw3ZcdPGybwUkH90a3VAhb.jpg',
                                   // fit: BoxFit.cover,
                                 ),
@@ -75,10 +87,13 @@ class DetailNewsScreen extends StatelessWidget {
                                 disableCenter: true,
                                 enableInfiniteScroll: false,
                                 onPageChanged: (index, reason) {
-                                  currentIndex = index;
+                                  setState(() {
+                                    _currentIndex = index;
+                                  });
                                 },
                               ),
-                              items: news.galleries.map((gallery) {
+                              carouselController: _carouselController,
+                              items: widget.news.galleries.map((gallery) {
                                 return Container(
                                   width: double.infinity,
                                   decoration: BoxDecoration(
@@ -94,17 +109,56 @@ class DetailNewsScreen extends StatelessWidget {
                                   ),
                                   child: ClipRRect(
                                     borderRadius: BorderRadius.circular(20),
+                                    clipBehavior: Clip.hardEdge,
                                     child: Image.network(
                                       gallery,
-                                      fit: BoxFit.cover,
-                                      height: double.infinity,
-                                      width: double.infinity,
+                                      fit: BoxFit.fill,
                                       alignment: Alignment.center,
                                     ),
                                   ),
                                 );
                               }).toList(),
                             ),
+                          ),
+                        ),
+                        Positioned(
+                          bottom: 10,
+                          left: 0,
+                          right: 0,
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            //get lenght of widget.news.galleris
+                            children: [
+                              for (int i = 0;
+                                  i < widget.news.galleries.length && i < 4;
+                                  i++)
+                                GestureDetector(
+                                  onTap: () {
+                                    final targetIndex =
+                                        (_currentIndex ~/ 4) * 4 + i;
+                                    _carouselController
+                                        .animateToPage(targetIndex);
+                                  },
+                                  child: AnimatedContainer(
+                                    duration: Duration(milliseconds: 300),
+                                    width: 16.0,
+                                    height: 5.0,
+                                    margin: EdgeInsets.symmetric(
+                                        vertical: 8.0, horizontal: 4.0),
+                                    decoration: BoxDecoration(
+                                      shape: BoxShape.rectangle,
+                                      color: (Theme.of(context).brightness ==
+                                                  Brightness.light
+                                              ? Color.fromARGB(216, 65, 62, 62)
+                                              : Color.fromARGB(
+                                                  255, 223, 223, 223))
+                                          .withOpacity(i == _currentIndex % 4
+                                              ? 0.9
+                                              : 0.4),
+                                    ),
+                                  ),
+                                ),
+                            ],
                           ),
                         ),
                         Positioned(
@@ -137,7 +191,7 @@ class DetailNewsScreen extends StatelessWidget {
                   Align(
                     alignment: Alignment.centerLeft,
                     child: Text(
-                      news.title,
+                      widget.news.title,
                       style: TextStyle(
                         fontWeight: FontWeight.bold,
                         fontSize: 18,
@@ -150,13 +204,16 @@ class DetailNewsScreen extends StatelessWidget {
                     children: [
                       CircleAvatar(
                         radius: 15,
-                        backgroundImage: NetworkImage(
-                          'https://randomuser.me/api/portraits/men/1.jpg',
-                        ),
+                        backgroundImage: Image.network(
+                          widget.news.logo == null
+                              ? 'https://external-content.duckduckgo.com/iu/?u=http%3A%2F%2Fwww.buffalohockeybeat.com%2Fwp-content%2Fuploads%2F2019%2F02%2FPilut6.jpg&f=1&nofb=1&ipt=482f3fd2da682caf2e10497f1dbc2538b9172ff0d680bf5e7adfbf2c7ca7473c&ipo=images'
+                              : widget.news.logo,
+                          fit: BoxFit.cover,
+                        ).image,
                       ),
                       SizedBox(width: 10),
                       Text(
-                        'oleh ${news.author}',
+                        'oleh ${widget.news.author}',
                         style: TextStyle(fontSize: 12, color: Colors.grey),
                       ),
                       Expanded(
@@ -164,7 +221,7 @@ class DetailNewsScreen extends StatelessWidget {
                           mainAxisAlignment: MainAxisAlignment.end,
                           children: [
                             Text(
-                              '${news.created_at}',
+                              '${widget.news.created_at}',
                               style: TextStyle(
                                 fontSize: 12,
                                 color: Colors.grey,
@@ -213,7 +270,7 @@ class DetailNewsScreen extends StatelessWidget {
                   Align(
                     alignment: Alignment.centerLeft,
                     child: Text(
-                      news.content,
+                      widget.news.content,
                       style: TextStyle(fontSize: 14),
                       textAlign: TextAlign.justify,
                     ),
