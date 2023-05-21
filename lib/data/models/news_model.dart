@@ -13,6 +13,7 @@ class News {
   final String author;
   final String scope;
   final String created_at;
+  final String logo;
   final List<dynamic> galleries;
 
   // Constructor
@@ -28,6 +29,7 @@ class News {
     this.author = '',
     this.scope = '',
     this.created_at = '',
+    this.logo = '',
     this.galleries = const [],
   });
 
@@ -45,6 +47,8 @@ class News {
       author: json['author'],
       scope: json['scope'],
       created_at: json['created_at'],
+      logo: json['logo'] ??
+          'https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fi.pinimg.com%2Foriginals%2F75%2F14%2F1f%2F75141f277ba73fd5bbd7c48ae36506eb.jpg&f=1&nofb=1&ipt=c8c701a9697f7f1304ea2b7c820dd150793113fde63ee41f1f758f95a2cbb7e2&ipo=images',
       galleries: List<dynamic>.from(json['galleries']),
     );
   }

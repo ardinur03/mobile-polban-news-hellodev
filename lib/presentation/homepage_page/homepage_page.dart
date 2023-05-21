@@ -7,6 +7,8 @@ import 'package:flutter/material.dart';
 import 'package:polban_news/core/app_export.dart';
 import 'package:polban_news/widgets/app_bar/custom_app_bar.dart';
 import 'package:polban_news/widgets/custom_button.dart';
+import 'package:carousel_slider/carousel_slider.dart';
+import 'package:polban_news/data/models/sliderNews_model.dart';
 
 // ignore_for_file: must_be_immutable
 class HomepagePage extends StatefulWidget {
@@ -16,6 +18,20 @@ class HomepagePage extends StatefulWidget {
 
 class _HomepagePageState extends State<HomepagePage> {
   final controller = Get.put(HomepageController());
+  int _currentIndex = 0;
+  final CarouselController _carouselController = CarouselController();
+  //buat variabel untuk menampung data slider
+  List<sliderNews> slider = [];
+  //Masukan data slider dari controller fecthslider ke variabel slider
+  void initState() {
+    super.initState();
+    controller.fetchSlider().then((value) {
+      //Cek apakah fecthSlider berhasil mendapatkan data
+      setState(() {
+        slider = controller.slider;
+      });
+    });
+  }
 
   String _kategori = 'Semua';
   String _filter = 'Terbaru';
@@ -127,48 +143,133 @@ class _HomepagePageState extends State<HomepagePage> {
                       ],
                     ),
                     Container(
-                      height: getVerticalSize(
-                        230.00,
-                      ),
-                      width: getHorizontalSize(
-                        340.00,
-                      ),
-                      margin: getMargin(
-                        top: 15,
+                      height: getVerticalSize(230.00),
+                      width: getHorizontalSize(340.00),
+                      margin: getMargin(top: 15),
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(10),
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.grey.withOpacity(0.5),
+                            spreadRadius: 2,
+                            blurRadius: 7,
+                            offset: Offset(0, 4),
+                          ),
+                        ],
                       ),
                       child: Stack(
                         alignment: Alignment.bottomCenter,
                         children: [
-                          CustomImageView(
-                            imagePath: ImageConstant.imgImagepicture,
-                            height: getVerticalSize(
-                              230.00,
-                            ),
-                            width: getHorizontalSize(
-                              340.00,
-                            ),
-                            radius: BorderRadius.circular(
-                              getHorizontalSize(
-                                10.00,
+                          if (slider.isNotEmpty)
+                            CarouselSlider(
+                              options: CarouselOptions(
+                                height: getVerticalSize(230.00),
+                                autoPlay: true,
+                                autoPlayInterval: Duration(seconds: 12),
+                                enlargeCenterPage: true,
+                                viewportFraction: 1.0,
+                                scrollDirection: Axis.horizontal,
+                                reverse: false,
+                                disableCenter: true,
+                                enableInfiniteScroll: true,
+                                onPageChanged: (index, reason) {
+                                  setState(() {
+                                    _currentIndex = index;
+                                  });
+                                },
                               ),
+                              carouselController: _carouselController,
+                              items: slider.map((slide) {
+                                return Container(
+                                  width: double.infinity,
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(10),
+                                    boxShadow: [
+                                      BoxShadow(
+                                        color: Colors.grey.withOpacity(0.5),
+                                        spreadRadius: 2,
+                                        blurRadius: 7,
+                                        offset: Offset(0, 4),
+                                      ),
+                                    ],
+                                  ),
+                                  child: ClipRRect(
+                                    borderRadius: BorderRadius.circular(10),
+                                    clipBehavior: Clip.hardEdge,
+                                    child: Image.network(
+                                      slide.picturePath,
+                                      fit: BoxFit.fill,
+                                      alignment: Alignment.center,
+                                    ),
+                                  ),
+                                );
+                              }).toList(),
                             ),
-                            alignment: Alignment.center,
-                          ),
                           Align(
                             alignment: Alignment.bottomCenter,
                             child: Container(
-                              width: getHorizontalSize(
-                                315.00,
-                              ),
-                              margin: getMargin(
-                                bottom: 17,
-                              ),
+                              width: getHorizontalSize(315.00),
+                              margin: getMargin(bottom: 17),
                               child: Text(
-                                "msg_politeknik_negeri".tr,
+                                slider.isNotEmpty
+                                    ? slider[_currentIndex].title
+                                    : '',
                                 maxLines: null,
                                 textAlign: TextAlign.justify,
-                                style: AppStyle.txtInterBold18,
+                                // style: AppStyle.txtInterBold18,
+                                style: TextStyle(
+                                    color: ColorConstant.whiteA700,
+                                    fontSize: getSize(
+                                      18.00,
+                                    ),
+                                    fontWeight: FontWeight.w700,
+                                    shadows: [
+                                      Shadow(
+                                        color: Colors.black.withOpacity(0.5),
+                                        offset: Offset(0, 3),
+                                        blurRadius: 3,
+                                      ),
+                                    ]),
                               ),
+                            ),
+                          ),
+                          Positioned(
+                            bottom: 0,
+                            left: 0,
+                            right: 0,
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              //get lenght of widget.news.galleris
+                              children: [
+                                for (int i = 0; i < 4; i++)
+                                  GestureDetector(
+                                    onTap: () {
+                                      final targetIndex =
+                                          (_currentIndex ~/ 4) * 4 + i;
+                                      _carouselController
+                                          .animateToPage(targetIndex);
+                                    },
+                                    child: AnimatedContainer(
+                                      duration: Duration(milliseconds: 300),
+                                      width: 8.0,
+                                      height: 8.0,
+                                      margin: EdgeInsets.symmetric(
+                                          vertical: 8.0, horizontal: 4.0),
+                                      decoration: BoxDecoration(
+                                        shape: BoxShape.circle,
+                                        color: (Theme.of(context).brightness ==
+                                                    Brightness.light
+                                                ? Color.fromARGB(
+                                                    216, 65, 62, 62)
+                                                : Color.fromARGB(
+                                                    255, 223, 223, 223))
+                                            .withOpacity(i == _currentIndex % 4
+                                                ? 0.9
+                                                : 0.4),
+                                      ),
+                                    ),
+                                  ),
+                              ],
                             ),
                           ),
                         ],

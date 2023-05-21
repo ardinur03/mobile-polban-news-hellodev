@@ -4,6 +4,7 @@ import 'package:http/http.dart' as http;
 
 // Models
 import 'package:polban_news/data/models/news_model.dart';
+import 'package:polban_news/data/models/sliderNews_model.dart';
 
 // URL
 final String baseUrl = 'https://polbannews.site/api';
@@ -88,18 +89,19 @@ class ApiClient extends GetConnect {
   }
 
   //Fungsi mengambil list image untuk slider dari API
-  Future<List<dynamic>> getSliderImage() async {
+  Future<List<sliderNews>> getSliderImage() async {
     try {
       // Dapatkan data dari API
-      final response = await http.get(Uri.parse('$baseUrl/slider'));
+      final response = await http.get(Uri.parse('$baseUrl/news-slides'));
       // Cek apakah berhasil mendapatkan data
       if (response.statusCode == 200) {
         // Jika berhasil, kembalikan data dalam bentuk model
-        List<dynamic> sliderJson = json.decode(response.body)['data'];
+        List<dynamic> sliderNewsJson = json.decode(response.body)['data'];
 
-        //
-        List<String> slider =
-            sliderJson.map((e) => '$baseUrl/storage/$e').toList();
+        // kembali dalam bentuk model
+        List<sliderNews> slider =
+            sliderNewsJson.map((e) => sliderNews.fromJson(e)).toList();
+
         return slider;
       }
       // Jika gagal, beri pesan error
