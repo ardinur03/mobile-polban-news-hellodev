@@ -3,7 +3,6 @@ import 'package:polban_news/core/app_export.dart';
 import 'package:polban_news/data/apiClient/api_client.dart';
 import 'package:polban_news/data/models/news_model.dart';
 import 'package:polban_news/data/models/sliderNews_model.dart';
-import 'package:polban_news/presentation/detail_news_page/detail_news_screen.dart';
 
 class HomepageController extends GetxController {
   RxList<News> news = RxList<News>();
