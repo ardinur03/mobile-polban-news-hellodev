@@ -127,33 +127,38 @@ class _DetailNewsScreenState extends State<DetailNewsScreen> {
                           right: 0,
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.center,
-                            children: widget.news.galleries
-                                .asMap()
-                                .entries
-                                .map((entry) {
-                              return GestureDetector(
-                                onTap: () => _carouselController
-                                    .animateToPage(entry.key),
-                                child: AnimatedContainer(
-                                  duration: Duration(milliseconds: 300),
-                                  width: 16.0,
-                                  height: 5.0,
-                                  margin: EdgeInsets.symmetric(
-                                      vertical: 8.0, horizontal: 4.0),
-                                  decoration: BoxDecoration(
-                                    shape: BoxShape.rectangle,
-                                    color: (Theme.of(context).brightness ==
-                                                Brightness.light
-                                            ? Color.fromARGB(216, 65, 62, 62)
-                                            : Color.fromARGB(
-                                                255, 223, 223, 223))
-                                        .withOpacity(_currentIndex == entry.key
-                                            ? 0.9
-                                            : 0.4),
+                            //get lenght of widget.news.galleris
+                            children: [
+                              for (int i = 0;
+                                  i < widget.news.galleries.length && i < 4;
+                                  i++)
+                                GestureDetector(
+                                  onTap: () {
+                                    final targetIndex =
+                                        (_currentIndex ~/ 4) * 4 + i;
+                                    _carouselController
+                                        .animateToPage(targetIndex);
+                                  },
+                                  child: AnimatedContainer(
+                                    duration: Duration(milliseconds: 300),
+                                    width: 16.0,
+                                    height: 5.0,
+                                    margin: EdgeInsets.symmetric(
+                                        vertical: 8.0, horizontal: 4.0),
+                                    decoration: BoxDecoration(
+                                      shape: BoxShape.rectangle,
+                                      color: (Theme.of(context).brightness ==
+                                                  Brightness.light
+                                              ? Color.fromARGB(216, 65, 62, 62)
+                                              : Color.fromARGB(
+                                                  255, 223, 223, 223))
+                                          .withOpacity(i == _currentIndex % 4
+                                              ? 0.9
+                                              : 0.4),
+                                    ),
                                   ),
                                 ),
-                              );
-                            }).toList(),
+                            ],
                           ),
                         ),
                         Positioned(
@@ -199,9 +204,12 @@ class _DetailNewsScreenState extends State<DetailNewsScreen> {
                     children: [
                       CircleAvatar(
                         radius: 15,
-                        backgroundImage: NetworkImage(
-                          'https://randomuser.me/api/portraits/men/1.jpg',
-                        ),
+                        backgroundImage: Image.network(
+                          widget.news.logo == null
+                              ? 'https://external-content.duckduckgo.com/iu/?u=http%3A%2F%2Fwww.buffalohockeybeat.com%2Fwp-content%2Fuploads%2F2019%2F02%2FPilut6.jpg&f=1&nofb=1&ipt=482f3fd2da682caf2e10497f1dbc2538b9172ff0d680bf5e7adfbf2c7ca7473c&ipo=images'
+                              : widget.news.logo,
+                          fit: BoxFit.cover,
+                        ).image,
                       ),
                       SizedBox(width: 10),
                       Text(

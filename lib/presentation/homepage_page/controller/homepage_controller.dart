@@ -2,10 +2,12 @@ import 'package:flutter/widgets.dart';
 import 'package:polban_news/core/app_export.dart';
 import 'package:polban_news/data/apiClient/api_client.dart';
 import 'package:polban_news/data/models/news_model.dart';
+import 'package:polban_news/data/models/sliderNews_model.dart';
 import 'package:polban_news/presentation/detail_news_page/detail_news_screen.dart';
 
 class HomepageController extends GetxController {
   RxList<News> news = RxList<News>();
+  RxList<sliderNews> slider = RxList<sliderNews>();
 
   ScrollController scrollController = ScrollController();
 
@@ -24,14 +26,12 @@ class HomepageController extends GetxController {
     }
   }
 
-  //Fungsi untuk mendapatkan list image dari api client
-  Future<List> fetchImageList(int newsId) async {
+  // Fungsi untuk mendapatkan slider berita
+  Future<void> fetchSlider() async {
     try {
-      List<dynamic> imageList = await ApiClient().getSliderImage();
-      return imageList;
+      slider.value = await ApiClient().getSliderImage();
     } catch (e) {
-      Get.snackbar('Error', 'Gagal mendapatkan list image: $e');
-      rethrow;
+      Get.snackbar('Error', 'Gagal mendapatkan data slider: $e');
     }
   }
 
