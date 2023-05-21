@@ -2,9 +2,19 @@ import 'package:flutter/material.dart';
 import 'package:polban_news/core/app_export.dart';
 import 'package:polban_news/widgets/app_bar/custom_app_bar.dart';
 import 'package:polban_news/widgets/custom_icon_button.dart';
+import 'package:polban_news/presentation/filter_page/controller/filter_controller.dart';
 
 // ignore_for_file: must_be_immutable
-class BookmarkPage extends StatelessWidget {
+
+class BookmarkPage extends StatefulWidget {
+  @override
+  _BookmarkPageState createState() => _BookmarkPageState();
+}
+
+class _BookmarkPageState extends State<BookmarkPage> {
+  final controller = Get.put(FilterController());
+  String _pilihan = 'Bookmark';
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -63,90 +73,123 @@ class BookmarkPage extends StatelessWidget {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Padding(
-                      padding: getPadding(
-                        top: 1,
-                      ),
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        children: [
-                          CustomIconButton(
-                            height: 50,
-                            width: 50,
-                            child: CustomImageView(
-                              svgPath: ImageConstant.imgIBookmark,
+                    GestureDetector(
+                      onTap: () {
+                        setState(() {
+                          _pilihan = 'Bookmark';
+                        });
+                      },
+                      child: Padding(
+                        padding: getPadding(
+                          top: 1,
+                        ),
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: [
+                            CustomIconButton(
+                              height: 50,
+                              width: 50,
+                              child: CustomImageView(
+                                svgPath: _pilihan == 'Bookmark'
+                                    ? ImageConstant.imgIBookmarkActive
+                                    : ImageConstant.imgIBookmarkInactive,
+                              ),
                             ),
-                          ),
-                          Padding(
-                            padding: getPadding(
-                              top: 5,
+                            Padding(
+                              padding: getPadding(
+                                top: 5,
+                              ),
+                              child: Text(
+                                "Bookmark",
+                                overflow: TextOverflow.ellipsis,
+                                textAlign: TextAlign.left,
+                                style: _pilihan == 'Bookmark'
+                                    ? AppStyle.txtPoppinsMedium12
+                                    : AppStyle.txtPoppinsMedium12Gray900,
+                              ),
                             ),
-                            child: Text(
-                              "Bookmark",
-                              overflow: TextOverflow.ellipsis,
-                              textAlign: TextAlign.left,
-                              style: AppStyle.txtPoppinsMedium12,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                    Padding(
-                      padding: getPadding(
-                        left: 43,
-                        bottom: 1,
-                      ),
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        children: [
-                          CustomIconButton(
-                            height: 50,
-                            width: 50,
-                            child: CustomImageView(
-                              svgPath: ImageConstant.imgFavorite,
-                            ),
-                          ),
-                          Padding(
-                            padding: getPadding(
-                              top: 5,
-                            ),
-                            child: Text(
-                              "Disukai",
-                              overflow: TextOverflow.ellipsis,
-                              textAlign: TextAlign.left,
-                              style: AppStyle.txtPoppinsMedium12Gray900,
-                            ),
-                          ),
-                        ],
+                          ],
+                        ),
                       ),
                     ),
-                    Padding(
-                      padding: getPadding(
-                        left: 28,
-                        bottom: 1,
+                    GestureDetector(
+                      onTap: () {
+                        setState(() {
+                          _pilihan = 'Disukai';
+                        });
+                      },
+                      child: Padding(
+                        padding: getPadding(
+                          left: 43,
+                          bottom: 1,
+                        ),
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: [
+                            CustomIconButton(
+                              height: 50,
+                              width: 50,
+                              child: CustomImageView(
+                                svgPath: _pilihan == 'Disukai'
+                                    ? ImageConstant.imgFavoriteActive
+                                    : ImageConstant.imgFavoriteInactive,
+                              ),
+                            ),
+                            Padding(
+                              padding: getPadding(
+                                top: 5,
+                              ),
+                              child: Text(
+                                "Disukai",
+                                overflow: TextOverflow.ellipsis,
+                                textAlign: TextAlign.left,
+                                style: _pilihan == 'Disukai'
+                                    ? AppStyle.txtPoppinsMedium12
+                                    : AppStyle.txtPoppinsMedium12Gray900,
+                              ),
+                            ),
+                          ],
+                        ),
                       ),
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        children: [
-                          CustomIconButton(
-                            height: 50,
-                            width: 50,
-                            child: CustomImageView(
-                              svgPath: ImageConstant.imgLastView,
+                    ),
+                    GestureDetector(
+                      onTap: () {
+                        setState(() {
+                          _pilihan = 'Terakhir Dilihat';
+                        });
+                      },
+                      child: Padding(
+                        padding: getPadding(
+                          left: 28,
+                          bottom: 1,
+                        ),
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: [
+                            CustomIconButton(
+                              height: 50,
+                              width: 50,
+                              child: CustomImageView(
+                                svgPath: _pilihan == 'Terakhir Dilihat'
+                                    ? ImageConstant.imgLastViewActive
+                                    : ImageConstant.imgLastViewInactive,
+                              ),
                             ),
-                          ),
-                          Padding(
-                            padding: getPadding(
-                              top: 5,
+                            Padding(
+                              padding: getPadding(
+                                top: 5,
+                              ),
+                              child: Text(
+                                "Terakhir Dilihat",
+                                overflow: TextOverflow.ellipsis,
+                                textAlign: TextAlign.left,
+                                style: _pilihan == 'Terakhir Dilihat'
+                                    ? AppStyle.txtPoppinsMedium12
+                                    : AppStyle.txtPoppinsMedium12Gray900,
+                              ),
                             ),
-                            child: Text(
-                              "Terakhir Dilihat",
-                              overflow: TextOverflow.ellipsis,
-                              textAlign: TextAlign.left,
-                              style: AppStyle.txtPoppinsMedium12Gray900,
-                            ),
-                          ),
-                        ],
+                          ],
+                        ),
                       ),
                     ),
                   ],
