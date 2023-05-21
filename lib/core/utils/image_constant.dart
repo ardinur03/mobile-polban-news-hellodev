@@ -15,7 +15,7 @@ class ImageConstant {
 
   static String imageNotFound = 'assets/images/image_not_found.png';
 
-  static String imgFiaward = 'assets/images/img_fiaward.svg';
+  static String imgFiawardBlack = 'assets/images/img_fiaward_black.svg';
 
   static String imgImage6 = 'assets/images/img_image6.png';
 
@@ -24,4 +24,8 @@ class ImageConstant {
   static String imgSearch = 'assets/images/img_search.svg';
 
   static String imgFavorite = 'assets/images/img_favorite.svg';
+
+  static String imgIBookmark = 'assets/images/img_ibookmark.svg';
+
+  static String imgLastView = 'assets/images/img_lastview.svg';
 }
