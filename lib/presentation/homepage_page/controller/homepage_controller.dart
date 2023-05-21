@@ -51,19 +51,19 @@ class HomepageController extends GetxController {
     }
   }
 
-  //Fungsi untuk mendapatkan Detail Berita
-  Future<News?> fetchDetails(int newsId) async {
-    try {
-      List<News> newsList = await ApiClient().fetchNewsDetails(newsId);
-      News? newsDetails = newsList.isNotEmpty ? newsList[0] : null;
-      // Jika berhasil, beri pesan berhasil
-      // Get.snackbar('Berhasil', 'Berhasil mendapatkan detail berita');
-      return newsDetails;
-    } catch (e) {
-      Get.snackbar('Error', 'Gagal mendapatkan detail berita: $e');
-      rethrow;
-    }
-  }
+  // //Fungsi untuk mendapatkan Detail Berita
+  // Future<News?> fetchDetails(int newsId) async {
+  //   try {
+  //     List<News> newsList = await ApiClient().fetchNewsDetails(newsId);
+  //     News? newsDetails = newsList.isNotEmpty ? newsList[0] : null;
+  //     // Jika berhasil, beri pesan berhasil
+  //     // Get.snackbar('Berhasil', 'Berhasil mendapatkan detail berita');
+  //     return newsDetails;
+  //   } catch (e) {
+  //     Get.snackbar('Error', 'Gagal mendapatkan detail berita: $e');
+  //     rethrow;
+  //   }
+  // }
 
   // Fungsi untuk refresh data berita dengan pull to refresh
   Future<void> refreshNews(String kategori) async {
@@ -85,9 +85,5 @@ class HomepageController extends GetxController {
     } catch (e) {
       Get.snackbar('Error', 'Gagal memuat data berita tambahan: $e');
     }
-  }
-
-  void refreshUI() {
-    update();
   }
 }
