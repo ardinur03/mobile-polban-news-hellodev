@@ -100,4 +100,49 @@ class AppStyle {
     fontFamily: 'Roboto',
     fontWeight: FontWeight.w400,
   );
+
+  static TextStyle txtPoppinsMedium12Gray900 = TextStyle(
+    color: ColorConstant.gray900,
+    fontSize: getFontSize(
+      12,
+    ),
+    fontFamily: 'Poppins',
+    fontWeight: FontWeight.w500,
+  );
+
+  static TextStyle txtPoppinsMedium12 = TextStyle(
+    color: ColorConstant.lightBlueA700,
+    fontSize: getFontSize(
+      12,
+    ),
+    fontFamily: 'Poppins',
+    fontWeight: FontWeight.w500,
+  );
+
+  static TextStyle txtInterSemiBold8 = TextStyle(
+    color: ColorConstant.black9004c,
+    fontSize: getFontSize(
+      8,
+    ),
+    fontFamily: 'Inter',
+    fontWeight: FontWeight.w600,
+  );
+
+  static TextStyle txtPoppinsBold12 = TextStyle(
+    color: ColorConstant.gray900,
+    fontSize: getFontSize(
+      12,
+    ),
+    fontFamily: 'Poppins',
+    fontWeight: FontWeight.w700,
+  );
+
+  static TextStyle txtPoppinsLight10 = TextStyle(
+    color: ColorConstant.indigo900,
+    fontSize: getFontSize(
+      10,
+    ),
+    fontFamily: 'Poppins',
+    fontWeight: FontWeight.w300,
+  );
 }
