@@ -1,5 +1,3 @@
-import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 import 'package:flutter/widgets.dart';
 import 'package:polban_news/core/app_export.dart';
 import 'package:polban_news/data/apiClient/api_client.dart';
@@ -22,6 +20,17 @@ class HomepageController extends GetxController {
     final double currentScroll = scrollController.position.pixels;
     if (currentScroll == maxScroll) {
       loadMoreNews();
+    }
+  }
+
+  //Fungsi untuk mendapatkan list image dari api client
+  Future<List> fetchImageList(int newsId) async {
+    try {
+      List<dynamic> imageList = await ApiClient().getSliderImage();
+      return imageList;
+    } catch (e) {
+      Get.snackbar('Error', 'Gagal mendapatkan list image: $e');
+      rethrow;
     }
   }
 

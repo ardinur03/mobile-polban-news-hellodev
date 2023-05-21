@@ -102,9 +102,6 @@ class _HomepagePageState extends State<HomepagePage> {
                               ? ButtonVariant.OutlineBlue200_1
                               : null,
                           text: "lbl_pusat".tr,
-                          margin: getMargin(
-                            left: 11,
-                          ),
                           onTap: () {
                             setState(() {
                               _kategori = 'Pusat';
