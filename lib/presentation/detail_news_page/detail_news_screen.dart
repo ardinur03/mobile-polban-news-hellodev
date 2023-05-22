@@ -16,6 +16,15 @@ class DetailNewsScreen extends StatefulWidget {
 }
 
 class _DetailNewsScreenState extends State<DetailNewsScreen> {
+  late DetailNewsController _detailNewsController;
+
+  @override
+  void initState() {
+    super.initState();
+    _detailNewsController = Get.put(DetailNewsController());
+    _detailNewsController.setNews(widget.news);
+  }
+
   int _currentIndex = 0;
   final CarouselController _carouselController = CarouselController();
 
