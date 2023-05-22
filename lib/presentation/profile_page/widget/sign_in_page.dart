@@ -36,7 +36,9 @@ class _SignInPageState extends State<SignInPage> {
       SharedPreferences prefs = await SharedPreferences.getInstance();
       print(response.body);
       await prefs.setString('token', token);
-      await prefs.remove('token');
+
+      //Remove
+      // await prefs.remove('token');
 
       Navigator.pushReplacement(
         context,
