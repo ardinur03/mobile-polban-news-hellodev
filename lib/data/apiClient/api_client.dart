@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:polban_news/core/app_export.dart';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
@@ -5,6 +6,8 @@ import 'package:http/http.dart' as http;
 // Models
 import 'package:polban_news/data/models/news_model.dart';
 import 'package:polban_news/data/models/sliderNews_model.dart';
+import 'package:polban_news/presentation/profile_page/model/profile_model.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 // URL
 final String baseUrl = 'https://polbannews.site/api';
@@ -109,6 +112,50 @@ class ApiClient extends GetConnect {
     } catch (e) {
       // Jika gagal, beri pesan error
       throw Exception('Gagal mendapatkan data slider: $e');
+    }
+  }
+
+  // Fungsi untuk mendapatkan bearer token dari SharedPreferences
+  Future<String?> getBearerToken() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String? token = prefs.getString('token');
+    return token;
+  }
+
+  //Fungsi mengambil data user dari API
+  Future<List<User>> getUser() async {
+    try {
+      // Dapatkan bearer token dari SharedPreferences
+      String? token = await getBearerToken();
+
+      // Pastikan token tidak null
+      if (token == null) {
+        throw Exception('Bearer token tidak tersedia');
+        // Kembalikan ke halam sign in
+      }
+
+      // Dapatkan data dari API dengan menyertakan header Authorization
+      final response = await http.get(
+        Uri.parse('$baseUrl/user'),
+        headers: {'Authorization': 'Bearer $token'},
+      );
+
+      // Cek apakah berhasil mendapatkan data
+      if (response.statusCode == 200) {
+        // Jika berhasil, kembalikan data dalam bentuk model
+        List<dynamic> userJson = json.decode(response.body)['data'];
+
+        // kembali dalam bentuk model
+        List<User> user = userJson.map((e) => User.fromJson(e)).toList();
+
+        return user;
+      }
+
+      // Jika gagal, beri pesan error
+      throw Exception('Gagal mendapatkan data user');
+    } catch (e) {
+      // Jika gagal, beri pesan error
+      throw Exception('Gagal mendapatkan data user: $e');
     }
   }
 

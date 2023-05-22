@@ -26,7 +26,6 @@ class _HomepagePageState extends State<HomepagePage> {
   void initState() {
     super.initState();
     controller.fetchSlider().then((value) {
-      //Cek apakah fecthSlider berhasil mendapatkan data
       setState(() {
         slider = controller.slider;
       });
