@@ -27,25 +27,24 @@ Struktur project yang kita buat secara umum seperti berikut:
 
 ```
 .
-├── android                         - contains files and folders required for running the application on an Android operating system.
-├── assets                          - contains all images and fonts of your application.
-├── ios                             - contains files required by the application to run the dart code on iOS platforms.
-├── lib                             - Most important folder in the project, used to write most of the Dart code.
-    ├── main.dart                   - starting point of the application
+├── android                         - berisi file dan folder yang diperlukan untuk menjalankan aplikasi pada sistem operasi Android
+├── assets                          - berisi semua gambar dan font aplikasi
+├── lib                             - Folder yang paling penting dalam proyek, digunakan untuk menulis sebagian besar kode
+    ├── main.dart                   - main.dart - titik awal aplikasi
     ├── core
-    │   ├── app_export.dart         - contains commonly used file imports 
-    │   ├── constants               - contains all constants classes
-    │   ├── errors                  - contains error handling classes                  
-    │   ├── network                 - contains network related classes
-    │   └── utils                   - contains common files and utilities of project
+    │   ├── app_export.dart         - berisi impor file yang sering digunakan
+    │   ├── constants               - berisi semua kelas konstanta
+    │   ├── errors                  - berisi kelas penanganan kesalahan                
+    │   ├── network                 - berisi kelas terkait jaringan
+    │   └── utils                   - berisi file dan utilitas umum proyek
     ├── data
-    │   ├── apiClient               - contains API calling methods 
-    │   ├── models                  - contains request/response models 
-    │   └── repository              - network repository
-    ├── localization                - contains localization classes
-    ├── presentation                - contains all screens and screen controllers
-    │   └── screens                 - contains all screens
-    ├── routes                      - contains all the routes of application
-    └── theme                       - contains app theme and decoration classes
-    └── widgets                     - contains all custom widget classes
+    │   ├── apiClient               - apiClient - berisi metode-metode pemanggilan API
+    │   ├── models                  - berisi model permintaan/respon
+    │   └── repository              - repositori jaringan
+    ├── localization                - berisi kelas-kelas lokalisasi
+    ├── presentation                - berisi semua layar dan pengendali layar
+    │   └── screens                 - berisi semua informasi terkait layar (model, view, controller)
+    ├── routes                      - berisi rute aplikasi
+    └── theme                       - berisi kelas tema dan dekorasi aplikasi
+    └── widgets                     - berisi semua kelas widget kustom
 ```
