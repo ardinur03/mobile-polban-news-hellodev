@@ -1,4 +1,3 @@
-import 'package:flutter/material.dart';
 // ignore_for_file: cast_from_null_always_fails, non_constant_identifier_names
 
 import 'package:polban_news/core/app_export.dart';
@@ -17,18 +16,20 @@ final String baseUrl = 'https://polbannews.site/api';
 
 String bearerToken = ApiClient().setToken() as String;
 
-// 11|mMY3WAAAItqmw7fsA2e1ftorqxvaPL4s37gezLpE
-
 class ApiClient extends GetConnect {
-  // Fungsi untuk mendapatkan seluruh data berita
   //Set beare token with shared_preferences
   Future<String> setToken() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    bearerToken = prefs.getString('token') as String;
+    try {
+      bearerToken = prefs.getString('token') as String;
+    } catch (e) {
+      bearerToken = '';
+    }
 
     return bearerToken;
   }
 
+  // Fungsi untuk mendapatkan seluruh data berita
   Future<List<News>> getAllNews() async {
     try {
       // Dapatkan data dari API
@@ -44,13 +45,15 @@ class ApiClient extends GetConnect {
 
         //
         List<News> news = newsJson.map((e) => News.fromJson(e)).toList();
+
         return news;
+      } else {
+        // Jika gagal, beri pesan error
+        throw Exception('Gagal mendapatkan data berita');
       }
-      // Jika gagal, beri pesan error
-      throw Exception('Gagal mendapatkan data berita');
     } catch (e) {
       // Jika gagal, beri pesan error
-      throw Exception('Gagal mendapatkan data berita: $e');
+      throw Exception(e);
     }
   }
 
@@ -76,7 +79,7 @@ class ApiClient extends GetConnect {
       throw Exception('Gagal mendapatkan data berita');
     } catch (e) {
       // Jika gagal, beri pesan error
-      throw Exception('Gagal mendapatkan data berita: $e');
+      throw Exception(e);
     }
   }
 
@@ -102,7 +105,7 @@ class ApiClient extends GetConnect {
       throw Exception('Gagal mendapatkan data berita');
     } catch (e) {
       // Jika gagal, beri pesan error
-      throw Exception('Gagal mendapatkan data berita: $e');
+      throw Exception(e);
     }
   }
 
@@ -126,7 +129,7 @@ class ApiClient extends GetConnect {
       throw Exception('Gagal mendapatkan data slider');
     } catch (e) {
       // Jika gagal, beri pesan error
-      throw Exception('Gagal mendapatkan data slider: $e');
+      throw Exception(e);
     }
   }
 
@@ -137,7 +140,7 @@ class ApiClient extends GetConnect {
     return token;
   }
 
-  //Fungsi mengambil data user dari API
+  // Fungsi mengambil data user dari API
   Future<List<User>> getUser() async {
     try {
       // Dapatkan bearer token dari SharedPreferences
@@ -170,7 +173,7 @@ class ApiClient extends GetConnect {
       throw Exception('Gagal mendapatkan data user');
     } catch (e) {
       // Jika gagal, beri pesan error
-      throw Exception('Gagal mendapatkan data user: $e');
+      throw Exception(e);
     }
   }
 
@@ -263,10 +266,11 @@ class ApiClient extends GetConnect {
       throw Exception('Gagal mendapatkan data berita');
     } catch (e) {
       // Jika gagal, beri pesan error
-      throw Exception('Gagal mendapatkan data berita: $e');
+      throw Exception(e);
     }
   }
 
+  // Fungsi untuk mendapatkan detail berita
   Future<List<News>> fetchNewsDetails(int newsId) async {
     try {
       // Dapatkan data dari API
@@ -318,10 +322,11 @@ class ApiClient extends GetConnect {
       throw Exception('Gagal mendapatkan data berita');
     } catch (e) {
       // Jika gagal, beri pesan error
-      throw Exception('Gagal mendapatkan data berita: $e');
+      throw Exception(e);
     }
   }
 
+  // Fungsi untuk mendapatkan data bookmark
   Future<List<Bookmark>> fetchAllBookmark() async {
     try {
       // Dapatkan data dari API
@@ -333,7 +338,7 @@ class ApiClient extends GetConnect {
 
       print(response);
 
-      if (response.statusCode == 200) {
+      if (response.statusCode == 200 && bearerToken != '') {
         // Jika berhasil, kembalikan data dalam bentuk model
         List<dynamic> bookmarkJson = json.decode(response.body)['data'];
 
@@ -341,14 +346,19 @@ class ApiClient extends GetConnect {
             bookmarkJson.map((e) => Bookmark.fromJson(e)).toList();
         return bookmarks;
       } else {
-        throw Exception('Gagal mendapatkan data bookmark');
+        if (bearerToken == '') {
+          throw Exception('Anda belum login');
+        } else {
+          throw Exception('Gagal mendapatkan data bookmark');
+        }
       }
     } catch (e) {
-      print('Error: $e');
-      throw Exception('Telah Terjadi Error: $e');
+      // Jika gagal, beri pesan error
+      return [];
     }
   }
 
+  // Fungsi untuk menambahkan bookmark
   void addBookmark(int newsId) async {
     try {
       // Kirim permintaan POST untuk menambahkan bookmark
@@ -359,21 +369,24 @@ class ApiClient extends GetConnect {
         body: {'news_id': newsId.toString()},
       );
 
-      if (response.statusCode == 200) {
+      if (response.statusCode == 200 && bearerToken != '') {
         // Berhasil menambahkan bookmark
         print('Berhasil menambahkan bookmark');
       } else {
         // Tangani jika permintaan tidak berhasil
-        throw Exception(
-            'Gagal menambahkan ke bookmark: ${response.statusCode}');
+        if (bearerToken == '') {
+          throw Exception('Anda belum login');
+        } else {
+          throw Exception('Gagal menambahkan bookmark');
+        }
       }
     } catch (e) {
       // Tangani jika terjadi kesalahan
-      print('Gagal menambahkan ke bookmark: $e');
-      throw Exception('Gagal menambahkan ke bookmark');
+      print(e);
     }
   }
 
+  // Fungsi untuk menghapus bookmark
   void deleteBookmark(int newsId) async {
     try {
       // Dapatkan id_bookmark yang memiliki id_news yang sama dengan newsId
@@ -389,20 +402,24 @@ class ApiClient extends GetConnect {
         body: {'id_bookmark': bookmark.id_bookmark.toString()},
       );
 
-      if (response.statusCode == 200) {
+      if (response.statusCode == 200 && bearerToken != '') {
         // Berhasil menambahkan bookmark
         print('Berhasil menghapus bookmark');
       } else {
         // Tangani jika permintaan tidak berhasil
-        throw Exception('Gagal menghapus bookmark: ${response.statusCode}');
+        if (bearerToken == '') {
+          throw Exception('Anda belum login');
+        } else {
+          throw Exception('Gagal menghapus bookmark');
+        }
       }
     } catch (e) {
       // Tangani jika terjadi kesalahan
-      print('Gagal menghapus bookmark: $e');
-      throw Exception('Gagal menghapus bookmark');
+      print(e);
     }
   }
 
+  // Fungsi untuk mendapatkan semua berita yang ada di bookmark
   Future<List<News>> fetchNewsByBookmark() async {
     try {
       // Dapatkan List Bookmark
@@ -430,7 +447,7 @@ class ApiClient extends GetConnect {
 
       return news;
     } catch (e) {
-      throw Exception('Gagal mendapatkan data berita: $e');
+      throw Exception('Gagal mendapatkan data berita pada bookmark: $e');
     }
   }
 }

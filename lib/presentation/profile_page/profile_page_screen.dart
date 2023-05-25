@@ -1,3 +1,5 @@
+// ignore_for_file: unused_local_variable, unused_element
+
 import 'package:flutter/material.dart';
 import 'package:polban_news/presentation/profile_page/model/profile_model.dart';
 import 'package:polban_news/widgets/app_bar/custom_app_bar.dart';

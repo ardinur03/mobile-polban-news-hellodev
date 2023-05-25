@@ -6,6 +6,7 @@ import 'package:polban_news/data/models/bookmark_model.dart';
 class BookmarkController extends GetxController {
   RxList<News> news = RxList<News>();
   RxList<Bookmark> bookmark = RxList<Bookmark>();
+  String btoken = '';
 
   // Fungsi untuk mendapatkan data berita yang sudah di bookmark
   void fetchBookmark() async {
@@ -16,7 +17,23 @@ class BookmarkController extends GetxController {
       // Jika berhasil, beri pesan berhasil
       // Get.snackbar('Berhasil', 'Berhasil mendapatkan data berita');
     } catch (e) {
-      Get.snackbar('Error', 'Gagal mendapatkan data berita: $e');
+      print(e);
+    }
+  }
+
+  // Fungsi untuk cek bearer token
+  Future<String> fetchBearerToken() async {
+    try {
+      // Dapatkan bearer token
+      btoken = await ApiClient().getBearerToken() as String;
+
+      if (btoken == '' || btoken.isEmpty) {
+        throw Exception('Anda belum login');
+      }
+
+      return btoken;
+    } catch (e) {
+      return '';
     }
   }
 

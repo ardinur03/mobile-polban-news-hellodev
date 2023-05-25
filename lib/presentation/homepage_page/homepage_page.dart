@@ -1,4 +1,4 @@
-// ignore_for_file: unused_import
+// ignore_for_file: unused_import, unused_field
 
 import '../homepage_page/widgets/homepage_item_widget.dart';
 import 'controller/homepage_controller.dart';
