@@ -73,9 +73,8 @@ class BookmarkPage extends StatelessWidget {
                           CustomIconButton(
                             height: 50,
                             width: 50,
-                            padding: IconButtonPadding.PaddingAll9,
                             child: CustomImageView(
-                              svgPath: ImageConstant.imgFiaward,
+                              svgPath: ImageConstant.imgIBookmark,
                             ),
                           ),
                           Padding(
@@ -133,7 +132,7 @@ class BookmarkPage extends StatelessWidget {
                             height: 50,
                             width: 50,
                             child: CustomImageView(
-                              svgPath: ImageConstant.imgFitrendingup,
+                              svgPath: ImageConstant.imgLastView,
                             ),
                           ),
                           Padding(
