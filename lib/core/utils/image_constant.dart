@@ -23,9 +23,16 @@ class ImageConstant {
 
   static String imgSearch = 'assets/images/img_search.svg';
 
-  static String imgFavorite = 'assets/images/img_favorite.svg';
+  static String imgFavoriteActive = 'assets/images/img_favorite_active.svg';
 
-  static String imgIBookmark = 'assets/images/img_ibookmark.svg';
+  static String imgFavoriteInactive = 'assets/images/img_favorite_passive.svg';
 
-  static String imgLastView = 'assets/images/img_lastview.svg';
+  static String imgIBookmarkActive = 'assets/images/img_ibookmark_active.svg';
+
+  static String imgIBookmarkInactive =
+      'assets/images/img_ibookmark_passive.svg';
+
+  static String imgLastViewActive = 'assets/images/img_lastview_active.svg';
+
+  static String imgLastViewInactive = 'assets/images/img_lastview_passive.svg';
 }

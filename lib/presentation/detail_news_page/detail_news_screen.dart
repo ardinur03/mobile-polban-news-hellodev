@@ -1,3 +1,5 @@
+// ignore_for_file: unnecessary_null_comparison
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:polban_news/core/app_export.dart';
@@ -14,17 +16,20 @@ class DetailNewsScreen extends StatefulWidget {
 }
 
 class _DetailNewsScreenState extends State<DetailNewsScreen> {
+  late DetailNewsController _detailNewsController;
+
+  @override
+  void initState() {
+    super.initState();
+    _detailNewsController = Get.put(DetailNewsController());
+    _detailNewsController.setNews(widget.news);
+  }
+
   int _currentIndex = 0;
   final CarouselController _carouselController = CarouselController();
 
   @override
   Widget build(BuildContext context) {
-    void _onPageChanged(int index, CarouselPageChangedReason reason) {
-      setState(() {
-        _currentIndex = index;
-      });
-    }
-
     return GetBuilder<DetailNewsController>(
       init: DetailNewsController(),
       builder: (controller) {
