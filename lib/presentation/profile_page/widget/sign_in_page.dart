@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:polban_news/core/app_export.dart';
+import 'package:polban_news/data/apiClient/api_client.dart';
 // import 'package:polban_news/presentation/homepage_page/homepage_page.dart';
 import 'package:polban_news/presentation/profile_page/widget/sign_up_page.dart';
 import 'package:polban_news/presentation/profile_page/profile_page_screen.dart';
@@ -36,15 +37,18 @@ class _SignInPageState extends State<SignInPage> {
 
       SharedPreferences prefs = await SharedPreferences.getInstance();
       print(response.body);
-      await prefs.setString('token', token);
 
-      //Remove
-      // await prefs.remove('token');
+      await prefs.setString('user', json.encode(user));
+      print(prefs.get('user'));
+
+      await prefs.setString('token', token);
+      ApiClient().setToken();
 
       Navigator.pushReplacement(
         context,
         MaterialPageRoute(builder: (context) => ProfilePageScreen()),
       );
+
       // Berikan notifikasi snackbar
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
@@ -89,14 +93,23 @@ class _SignInPageState extends State<SignInPage> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(
-              'Login',
-              style: AppStyle.txtPoppinsMedium12,
-            ),
+            Text('Sign In',
+                style: TextStyle(
+                  fontSize: 32,
+                  fontFamily: 'Poppins',
+                  fontWeight: FontWeight.w600,
+                  color: Color.fromARGB(255, 48, 46, 46),
+                )),
             SizedBox(
               height: 2,
             ),
-            Text('Sign In to Continue', style: AppStyle.txtPoppinsMedium12),
+            Text('Sign In to Continue',
+                style: TextStyle(
+                  fontSize: 12,
+                  fontFamily: 'Poppins',
+                  fontWeight: FontWeight.w400,
+                  color: Color.fromARGB(255, 255, 255, 255),
+                )),
           ],
         ),
       );
@@ -108,10 +121,13 @@ class _SignInPageState extends State<SignInPage> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(
-              'Email Address',
-              style: AppStyle.txtPoppinsMedium12,
-            ),
+            Text('Email Address',
+                style: TextStyle(
+                  fontSize: 12,
+                  fontFamily: 'Poppins',
+                  fontWeight: FontWeight.w400,
+                  color: Color.fromARGB(255, 255, 255, 255),
+                )),
             SizedBox(
               height: 12,
             ),
@@ -159,10 +175,13 @@ class _SignInPageState extends State<SignInPage> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(
-              'Password',
-              style: AppStyle.txtPoppinsMedium12,
-            ),
+            Text('Password',
+                style: TextStyle(
+                  fontSize: 12,
+                  fontFamily: 'Poppins',
+                  fontWeight: FontWeight.w400,
+                  color: Color.fromARGB(255, 255, 255, 255),
+                )),
             SizedBox(
               height: 12,
             ),

@@ -14,9 +14,10 @@ class ProfilePageScreen extends StatefulWidget {
 
 class _ProfilePageScreenState extends State<ProfilePageScreen> {
   final controller = Get.put(TokenController());
-  List<User> user = [];
+  User user = User();
   bool isLoading = true;
   bool hasToken = false;
+  String temp = "";
 
   @override
   void initState() {
@@ -31,6 +32,7 @@ class _ProfilePageScreenState extends State<ProfilePageScreen> {
     if (token != null) {
       setState(() {
         hasToken = true;
+        // temp = token;
       });
     }
 
@@ -41,6 +43,7 @@ class _ProfilePageScreenState extends State<ProfilePageScreen> {
 
   @override
   Widget build(BuildContext context) {
+    // ignore: unused_local_variable
     final Size size = MediaQuery.of(context).size;
 
     if (isLoading) {
@@ -63,7 +66,7 @@ class _ProfilePageScreenState extends State<ProfilePageScreen> {
       super.initState();
       controller.fecthUser().then((value) {
         setState(() {
-          user = controller.userList;
+          user = controller.setUser() as User;
         });
       });
     }
@@ -90,13 +93,16 @@ class _ProfilePageScreenState extends State<ProfilePageScreen> {
           ),
           TextButton(
             onPressed: () {
-              Navigator.push(
+              controller.logout();
+              Navigator.pushReplacement(
                 context,
-                MaterialPageRoute(builder: (context) => SignUp()),
+                MaterialPageRoute(
+                  builder: (context) => SignInPage(),
+                ),
               );
             },
             child: Text(
-              "Sign Up",
+              "Log Out",
               style: TextStyle(color: Color.fromARGB(255, 26, 78, 209)),
             ),
           ),
@@ -105,78 +111,43 @@ class _ProfilePageScreenState extends State<ProfilePageScreen> {
       ),
       body: Column(
         children: [
-          Container(
-            width: size.width,
-            child: Stack(
-              children: [
-                SingleChildScrollView(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      SizedBox(height: getVerticalSize(8.00)),
-                      Container(
-                        width: getHorizontalSize(375.00),
-                        height: getVerticalSize(280.00),
-                        decoration: BoxDecoration(
-                          color: ColorConstant.whiteA700,
-                          borderRadius: BorderRadius.only(
-                            bottomLeft: Radius.circular(getSize(20.00)),
-                            bottomRight: Radius.circular(getSize(20.00)),
-                          ),
-                          boxShadow: [
-                            BoxShadow(
-                              color: ColorConstant.black90019.withOpacity(0.3),
-                              offset: Offset(0, getSize(4.00)),
-                              blurRadius: getSize(10.00),
-                            ),
-                          ],
-                        ),
-                        child: Stack(
-                          children: [
-                            Positioned(
-                              top: getVerticalSize(10.00),
-                              left: (getHorizontalSize(
-                                          (375.00) - getSize(80.00)) /
-                                      2) -
-                                  40,
-                              child: Column(
-                                children: [
-                                  CircleAvatar(
-                                    radius: getSize(80.00),
-                                    backgroundColor: Colors.blue,
-                                    // Add your image or initials inside the CircleAvatar
-                                    // using backgroundImage or child property
-                                    // Example:
-                                    // backgroundImage: AssetImage('path_to_image'),
-                                    // child: Text('Initials'),
-                                  ),
-                                  SizedBox(height: getVerticalSize(15.00)),
-                                  Text(
-                                    "Muhammad Rizky Ramadhan",
-                                    overflow: TextOverflow.ellipsis,
-                                    textAlign: TextAlign.center,
-                                    style: AppStyle.txtInterBlack18,
-                                  ),
-                                  SizedBox(height: getVerticalSize(5.00)),
-                                  Row(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: [
-                                      Text("211511017"),
-                                      Text("|"),
-                                      Text("HIMAKOM'21"),
-                                    ],
-                                  )
-                                ],
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ],
+          Stack(
+            children: [
+              Container(
+                width: getHorizontalSize(375.00),
+                height: getVerticalSize(250.00),
+                decoration: BoxDecoration(
+                  color: ColorConstant.whiteA700,
+                  borderRadius: BorderRadius.only(
+                    bottomLeft: Radius.circular(getSize(20.00)),
+                    bottomRight: Radius.circular(getSize(20.00)),
+                  ),
+                  boxShadow: [
+                    BoxShadow(
+                      color: ColorConstant.black90019.withOpacity(0.3),
+                      offset: Offset(0, getSize(4.00)),
+                      blurRadius: getSize(10.00),
+                    ),
+                  ],
+                ),
+              ),
+              // SizedBox(height: getVerticalSize(100.00)),
+              // Text(user.name),
+              Positioned(
+                width: getHorizontalSize(100),
+                height: getVerticalSize(100),
+                child: Text(
+                  "Madpilot",
+                  style: TextStyle(
+                    color: ColorConstant.black900,
+                    fontSize: getSize(18.00),
+                    fontFamily: "popins",
+                    fontWeight: FontWeight.w500,
                   ),
                 ),
-              ],
-            ),
+              )
+              // Positioned(),
+            ],
           ),
           SizedBox(height: getVerticalSize(10.00)),
           Container(
@@ -229,7 +200,7 @@ class _ProfilePageScreenState extends State<ProfilePageScreen> {
                           ),
                           SizedBox(height: getVerticalSize(10.00)),
                           Text(
-                            "Example@gmail.com",
+                            "Sigma@gmail.com",
                             style: TextStyle(
                               color: ColorConstant.black900,
                               fontSize: getSize(14.00),
@@ -243,26 +214,6 @@ class _ProfilePageScreenState extends State<ProfilePageScreen> {
                   ),
                 ),
               ],
-            ),
-          ),
-          Positioned(
-            bottom: 100.0,
-            right: 20.0,
-            child: Align(
-              alignment: Alignment.bottomRight,
-              child: FloatingActionButton(
-                onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => SignInPage()),
-                  );
-                },
-                backgroundColor: Colors.blue,
-                child: Text(
-                  "Sign In",
-                  style: TextStyle(color: Colors.white),
-                ),
-              ),
             ),
           ),
         ],

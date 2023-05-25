@@ -14,21 +14,40 @@ import 'package:polban_news/data/models/bookmark_model.dart';
 
 // URL
 final String baseUrl = 'https://polbannews.site/api';
+bool isLogout = false;
 
-String bearerToken = ApiClient().setToken() as String;
+// Token
+// ignore: unnecessary_cast
+String? bearerToken = isLogout ? null : (ApiClient().setToken()) as String;
 
 // 11|mMY3WAAAItqmw7fsA2e1ftorqxvaPL4s37gezLpE
 
 class ApiClient extends GetConnect {
-  // Fungsi untuk mendapatkan seluruh data berita
   //Set beare token with shared_preferences
-  Future<String> setToken() async {
+  Future<String?> setToken() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     bearerToken = prefs.getString('token') as String;
+    print(bearerToken);
 
     return bearerToken;
   }
 
+  //get beareerToken
+  String? getToken() {
+    return bearerToken;
+  }
+
+  bool clearToken() {
+    // bearerToken = null;
+    return isLogout = true;
+  }
+
+  String? clearBearerToken() {
+    bearerToken = null;
+    return bearerToken;
+  }
+
+  // Fungsi untuk mendapatkan seluruh data berita
   Future<List<News>> getAllNews() async {
     try {
       // Dapatkan data dari API

@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:polban_news/core/app_export.dart';
 import 'package:polban_news/data/apiClient/api_client.dart';
@@ -15,5 +17,23 @@ class TokenController {
     } catch (e) {
       Get.snackbar('Error', 'Gagal mendapatkan data slider : $e');
     }
+  }
+
+  Future<void> logout() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.remove('token');
+    print(prefs.getString('token'));
+    print(ApiClient().getToken());
+    ApiClient().clearBearerToken();
+    print(ApiClient().getToken());
+  }
+
+  //Set User from shred_pref user
+  Future<User> setUser() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+
+    User user = json.decode(prefs.getString('user')!);
+
+    return user;
   }
 }
