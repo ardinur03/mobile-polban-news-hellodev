@@ -25,6 +25,8 @@ class AppRoutes {
 
   static const String bookmarkPage = '/bookmark-page';
 
+  static const String profilePage = '/profile-page';
+
   static List<GetPage> pages = [
     GetPage(
       name: splashScreen,
