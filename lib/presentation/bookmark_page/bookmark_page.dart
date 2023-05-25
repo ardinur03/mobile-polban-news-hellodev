@@ -13,15 +13,69 @@ class BookmarkPage extends StatefulWidget {
 class _BookmarkPageState extends State<BookmarkPage> {
   final controller = Get.put(BookmarkController());
   String _pilihan = 'Bookmark';
+  String _islogin = '';
+  bool isDataInitialized = false; // Tambahkan flag
 
   @override
   void initState() {
     super.initState();
-    controller.fetchBookmark();
+    initializeData();
+  }
+
+  Future<void> initializeData() async {
+    _islogin = await controller.fetchBearerToken();
+    if (_islogin != '') {
+      controller.fetchBookmark();
+    }
+    setState(() {
+      isDataInitialized =
+          true; // Set flag menjadi true setelah pemanggilan selesai
+    });
   }
 
   @override
   Widget build(BuildContext context) {
+    Widget contentWidget;
+
+    if (!isDataInitialized) {
+      // Tampilkan widget loading jika data belum diinisialisasi
+      contentWidget = Center(
+        child: CircularProgressIndicator(),
+      );
+    } else if (_islogin != '') {
+      contentWidget = Padding(
+        padding: getPadding(top: 13),
+        child: Obx(() => ListView.separated(
+              physics: NeverScrollableScrollPhysics(),
+              shrinkWrap: true,
+              separatorBuilder: (context, index) {
+                return SizedBox(
+                  height: getVerticalSize(20.00),
+                );
+              },
+              itemCount: controller.news.length,
+              itemBuilder: (context, index) {
+                final newsModel = controller.news[index];
+                return HomepageItemWidget(newsModel);
+              },
+            )),
+      );
+    } else {
+      contentWidget = Padding(
+        padding: EdgeInsets.only(top: 80),
+        child: Center(
+          child: Text(
+            "Bookmark hanya bisa diakses setelah login",
+            style: TextStyle(
+              fontSize: 16,
+              fontWeight: FontWeight.bold,
+              color: Colors.red,
+            ),
+          ),
+        ),
+      );
+    }
+
     return SafeArea(
       child: Scaffold(
         backgroundColor: ColorConstant.whiteA700,
@@ -173,23 +227,7 @@ class _BookmarkPageState extends State<BookmarkPage> {
                     color: ColorConstant.blueGray100,
                   ),
                 ),
-                Padding(
-                  padding: getPadding(top: 13),
-                  child: Obx(() => ListView.separated(
-                        physics: NeverScrollableScrollPhysics(),
-                        shrinkWrap: true,
-                        separatorBuilder: (context, index) {
-                          return SizedBox(
-                            height: getVerticalSize(20.00),
-                          );
-                        },
-                        itemCount: controller.news.length,
-                        itemBuilder: (context, index) {
-                          final newsModel = controller.news[index];
-                          return HomepageItemWidget(newsModel);
-                        },
-                      )),
-                ),
+                contentWidget,
               ],
             ),
           ),

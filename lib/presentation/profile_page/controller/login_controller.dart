@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:polban_news/core/app_export.dart';
 import 'package:polban_news/data/apiClient/api_client.dart';
@@ -32,7 +30,17 @@ class TokenController {
   Future<User> setUser() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
 
-    User user = json.decode(prefs.getString('user')!);
+    User user = User(
+      id: prefs.getInt('id')!,
+      name: prefs.getString('name')!,
+      email: prefs.getString('email')!,
+      profile_photo_path: prefs.getString('profile_photo_path')!,
+      study_name: prefs.getString('study_name')!,
+      faculty_name: prefs.getString('faculty_name')!,
+      cohort_year: prefs.getInt('cohort_year')!,
+      address: prefs.getString('address')!,
+      phone_number: prefs.getString('phone_number')!,
+    );
 
     return user;
   }

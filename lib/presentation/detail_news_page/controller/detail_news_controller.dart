@@ -9,6 +9,7 @@ class DetailNewsController extends GetxController {
 
   RxBool bookmarkStatus = false.obs;
   RxBool loveStatus = false.obs;
+  String btoken = '';
 
   void setNews(News news) {
     this.news = news;
@@ -27,33 +28,48 @@ class DetailNewsController extends GetxController {
     }
   }
 
-  void testPrint() {
-    print(bookmarkStatus.value);
-    print(news.id);
+  Future<String> fetchBearerToken() async {
+    try {
+      // Dapatkan bearer token
+      btoken = await ApiClient().getBearerToken() as String;
 
-    print("Hello");
+      if (btoken == '' || btoken.isEmpty) {
+        throw Exception('Anda belum login');
+      }
+
+      return btoken;
+    } catch (e) {
+      return '';
+    }
   }
 
   void toggleBookmark() async {
-    bookmarkStatus.toggle();
-
+    // Cek btoken
     try {
-      if (bookmarkStatus.value == true) {
-        ApiClient().addBookmark(news.id);
+      btoken = await fetchBearerToken();
 
-        Get.snackbar('Berhasil', 'Berhasil menambahkan bookmark');
+      if (btoken == '' || btoken.isEmpty) {
+        Get.snackbar('Maaf', 'Anda belum login');
       } else {
-        ApiClient().deleteBookmark(news.id);
+        bookmarkStatus.toggle();
 
-        Get.snackbar('Berhasil', 'Berhasil menghapus bookmark');
+        if (bookmarkStatus.value == true) {
+          ApiClient().addBookmark(news.id);
+
+          Get.snackbar('Berhasil', 'Berhasil menambahkan bookmark');
+        } else {
+          ApiClient().deleteBookmark(news.id);
+
+          Get.snackbar('Berhasil', 'Berhasil menghapus bookmark');
+        }
       }
     } catch (e) {
-      Get.snackbar('Error', 'Gagal menambahkan bookmark: $e');
+      Get.snackbar('Error', 'Terjadi kesalahan');
     }
   }
 
   void toggleLove() {
-    loveStatus.toggle();
+    Get.snackbar('Maaf', 'Untuk sementara fitur ini belum tersedia');
   }
 
   @override
@@ -64,6 +80,5 @@ class DetailNewsController extends GetxController {
   void onReady() {
     super.onReady();
     setStatus();
-    testPrint();
   }
 }

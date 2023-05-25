@@ -17,12 +17,22 @@ class DetailNewsScreen extends StatefulWidget {
 
 class _DetailNewsScreenState extends State<DetailNewsScreen> {
   late DetailNewsController _detailNewsController;
+  String _islogin = '';
 
   @override
   void initState() {
     super.initState();
     _detailNewsController = Get.put(DetailNewsController());
     _detailNewsController.setNews(widget.news);
+    initializeData();
+  }
+
+  Future<void> initializeData() async {
+    _islogin = await _detailNewsController.fetchBearerToken();
+    if (_islogin != '') {
+      _detailNewsController.setStatus();
+    }
+    setState(() {});
   }
 
   int _currentIndex = 0;
