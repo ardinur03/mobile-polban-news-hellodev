@@ -1,4 +1,4 @@
-// ignore_for_file: unused_import
+// ignore_for_file: unused_import, unused_field
 
 import '../homepage_page/widgets/homepage_item_widget.dart';
 import 'controller/homepage_controller.dart';
@@ -26,7 +26,6 @@ class _HomepagePageState extends State<HomepagePage> {
   void initState() {
     super.initState();
     controller.fetchSlider().then((value) {
-      //Cek apakah fecthSlider berhasil mendapatkan data
       setState(() {
         slider = controller.slider;
       });
@@ -278,95 +277,6 @@ class _HomepagePageState extends State<HomepagePage> {
                     Padding(
                       padding: getPadding(
                         top: 12,
-                      ),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          GestureDetector(
-                            onTap: () {
-                              setState(() {
-                                _filter = 'Terbaru';
-                              });
-                            },
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              children: [
-                                Text(
-                                  "lbl_terbaru".tr,
-                                  overflow: TextOverflow.ellipsis,
-                                  textAlign: TextAlign.left,
-                                  style: AppStyle.txtInterRegular10,
-                                ),
-                                Container(
-                                  height: getVerticalSize(1.00),
-                                  width: getHorizontalSize(90.00),
-                                  margin: getMargin(top: 3),
-                                  decoration: BoxDecoration(
-                                    color: _filter == 'Terbaru'
-                                        ? ColorConstant.indigoA200
-                                        : ColorConstant.blue200,
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                          GestureDetector(
-                            onTap: () {
-                              setState(() {
-                                _filter = 'Terpopuler';
-                              });
-                            },
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              children: [
-                                Text(
-                                  "lbl_terpopuler".tr,
-                                  overflow: TextOverflow.ellipsis,
-                                  textAlign: TextAlign.left,
-                                  style: AppStyle.txtInterRegular10,
-                                ),
-                                Container(
-                                  height: getVerticalSize(1.00),
-                                  width: getHorizontalSize(90.00),
-                                  margin: getMargin(top: 3),
-                                  decoration: BoxDecoration(
-                                    color: _filter == 'Terpopuler'
-                                        ? ColorConstant.indigoA200
-                                        : ColorConstant.blue200,
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                          GestureDetector(
-                            onTap: () {
-                              setState(() {
-                                _filter = 'Paling Disukai';
-                              });
-                            },
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              children: [
-                                Text(
-                                  "lbl_paling_disukai".tr,
-                                  overflow: TextOverflow.ellipsis,
-                                  textAlign: TextAlign.left,
-                                  style: AppStyle.txtInterRegular10,
-                                ),
-                                Container(
-                                  height: getVerticalSize(1.00),
-                                  width: getHorizontalSize(90.00),
-                                  margin: getMargin(top: 3),
-                                  decoration: BoxDecoration(
-                                    color: _filter == 'Paling Disukai'
-                                        ? ColorConstant.indigoA200
-                                        : ColorConstant.blue200,
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                        ],
                       ),
                     ),
                     Padding(
