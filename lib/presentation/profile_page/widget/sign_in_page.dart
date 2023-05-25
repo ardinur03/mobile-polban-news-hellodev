@@ -32,6 +32,7 @@ class _SignInPageState extends State<SignInPage> {
       // Jika request berhasil, simpan sesi dengan shared preferences
       final token = json.decode(response.body)['data']
           ['access_token']; // Ubah sesuai dengan respons API Anda
+      final user = json.decode(response.body)['data'];
 
       SharedPreferences prefs = await SharedPreferences.getInstance();
       print(response.body);

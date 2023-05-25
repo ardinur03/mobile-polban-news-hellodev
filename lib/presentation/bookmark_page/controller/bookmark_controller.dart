@@ -14,7 +14,7 @@ class BookmarkController extends GetxController {
       news.value = await ApiClient().fetchNewsByBookmark();
 
       // Jika berhasil, beri pesan berhasil
-      Get.snackbar('Berhasil', 'Berhasil mendapatkan data berita');
+      // Get.snackbar('Berhasil', 'Berhasil mendapatkan data berita');
     } catch (e) {
       Get.snackbar('Error', 'Gagal mendapatkan data berita: $e');
     }
