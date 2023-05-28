@@ -53,8 +53,8 @@ class ApiClient extends GetConnect {
   Future<List<News>> getAllNews() async {
     try {
       // Dapatkan data dari API
-      final response =
-          await http.get(Uri.parse('$baseUrl/news?date_filter=latest'));
+      final response = await http
+          .get(Uri.parse('$baseUrl/news?date_filter=latest&limit=20'));
       // Cek apakah berhasil mendapatkan data
       if (response.statusCode == 200) {
         // Jika berhasil, kembalikan data dalam bentuk model
